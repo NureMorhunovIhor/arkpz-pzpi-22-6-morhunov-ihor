@@ -1,0 +1,141 @@
+// Поганий приклад
+int n = 10;
+public void m(int a) {
+    System.out.println("Number: " + a);
+}
+
+// Гарний приклад
+int numberOfUsers = 10;
+public void sendNotification(int userId) {
+    System.out.println("Сповіщення відправлено користувачу з ID: " + userId);
+}
+
+
+// Поганий приклад
+class user_account {
+    int UserAge = 25;
+    void calculatesum() {
+       int sum = 10 + 20; 
+       System.out.println("Sum: " + sum);
+    }
+}
+
+// Гарний приклад
+class UserAccount {
+    int userAge = 25;
+    void calculateSum() {
+       int sum = 10 + 20; 
+       System.out.println("Сума: " + sum);
+    }
+}
+
+
+// Поганий приклад
+public class Example{
+    public void doSomething(){
+       int a = 5;
+       if(a > 0){
+          System.out.println("Positive");
+       }
+    }
+}
+
+// Гарний приклад
+public class Example {
+    public void doSomething() {
+       int a = 5;
+       if (a > 0) {
+          System.out.println("Позитивне число");
+       } else {
+          System.out.println("Негативне число");
+       }
+    }
+}
+
+
+// Поганий приклад
+public class MathOperations {
+    public int addTen(int number) {
+       return number + 10;
+    }
+
+    public int addTwenty(int number) {
+       return number + 20;
+    }
+}
+
+// Гарний приклад
+public class MathOperations {
+    public int add(int number, int increment) {
+       return number + increment;
+    }
+}
+
+// Поганий приклад: клас не відповідає принципу єдиної відповідальності
+public class User {
+    public void registerUser(String name) {
+       System.out.println("Користувач " + name + " зареєстрований.");
+    }
+
+    public void logUserAction(String action) {
+       System.out.println("Дія: " + action);
+    }
+}
+
+// Гарний приклад: принцип єдиної відповідальності дотримано, кожен клас відповідає за свою функцію
+public class User {
+    public void registerUser(String name) {
+       System.out.println("Користувач " + name + " зареєстрований.");
+    }
+}
+
+public class Logger {
+    public void logUserAction(String action) {
+       System.out.println("Дія: " + action);
+    }
+}
+
+
+// Поганий приклад
+try {
+    int result = 10 / 0;
+} catch (Exception e) {
+    // Нічого не робимо тому помилка не помітна
+}
+
+// Гарний приклад
+try {
+    int result = 10 / 0;
+} catch (ArithmeticException e) {
+    System.out.println("Ділення на нуль!");
+}
+
+
+
+import org.junit.jupiter.api.Test;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+public class MathOperationsTest {
+   @Test
+   public void testAdd() {
+      MathOperations operations = new MathOperations();
+      int result = operations.add(2, 3);
+      assertEquals(5, result); // Перевіряємо, чи результат дорівнює 5
+   }
+}
+
+// Коментар до коду для полегшення розуміння
+    /**
+     * Клас MathOperations містить методи для виконання базових математичних операцій.
+     */
+public class MathOperations {
+   /**
+    * Метод додає два числа.
+    * @param a перше число
+    * @param b друге число
+    * @return сума чисел a і b
+    */
+   public int add(int a, int b) {
+      return a + b;
+   }
+}
