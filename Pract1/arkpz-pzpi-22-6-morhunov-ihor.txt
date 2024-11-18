@@ -37,164 +37,167 @@
 	Основні рекомендації написання коду на Java:
 1)	Рекомендація: Використовуйте осмислені назви змінних, класів та методів
 Опис: Важливо використовувати зрозумілі та осмислені назви, щоб код був інтуїтивно зрозумілим для інших розробників. Уникайте скорочень та абревіатур.
+Приклад:
 
-// Поганий приклад
-int n = 10;
-public void m(int a) {
-    System.out.println("Number: " + a);
-}
-// Гарний приклад
-int numberOfUsers = 10;
-public void sendNotification(int userId) {
-    System.out.println("Сповіщення відправлено користувачу з ID: " + userId);
-}
+1. // Поганий приклад
+2. int n = 10;
+3. public void m(int a) {
+4.     System.out.println("Number: " + a);
+5. }
+6. // Гарний приклад
+7. int numberOfUsers = 10;
+8. public void sendNotification(int userId) {
+9.     System.out.println("Сповіщення відправлено користувачу з ID: " + userId);
+10. }
 
 2)	 Рекомендація: Дотримуйтесь CamelCase для назва методів і зміних, PascalCase – для класів
 Опис: Java використовує CamelCase для змінних і методів (наприклад, calculateSum, userAge), а PascalCase для класів (наприклад, UserAccount).
+Приклад:
 
-
-// Поганий приклад
-class user_account {
-    int UserAge = 25;
-    void calculatesum() {
-       int sum = 10 + 20; 
-       System.out.println("Sum: " + sum);
-    }
-}
-// Гарний приклад
-class UserAccount {
-    int userAge = 25;
-    void calculateSum() {
-       int sum = 10 + 20; 
-       System.out.println("Сума: " + sum);
-    }
-}
+1. // Поганий приклад
+2. class user_account {
+3.     int UserAge = 25;
+4.     void calculatesum() {
+5.        int sum = 10 + 20; 
+6.        System.out.println("Sum: " + sum);
+7.     }
+8. }
+9. // Гарний приклад
+10. class UserAccount {
+11.     int userAge = 25;
+12.     void calculateSum() {
+13.        int sum = 10 + 20; 
+14.        System.out.println("Сума: " + sum);
+15.     }
+16. }
 
 3)	Рекомендація: Використовуйте чітку структуру та відступи
 Опис: Для кращої читабельності дотримуйтесь єдиної структури та відступів (звичайно 4 пробіли в Java).
+Приклад:
 
-// Поганий приклад
-public class Example{
-    public void doSomething(){
-       int a = 5;
-       if(a > 0){
-          System.out.println("Positive");
-       }
-    }
-}
+1. // Поганий приклад
+2. public class Example{
+3.     public void doSomething(){
+4.        int a = 5;
+5.        if(a > 0){
+6.           System.out.println("Positive");
+7.        }
+8.     }
+9. }
+10. // Гарний приклад
+11. public class Example {
+12.     public void doSomething() {
+13.        int a = 5;
+14.        if (a > 0) {
+15.           System.out.println("Позитивне число");
+16.        } else {
+17.           System.out.println("Негативне число");
+18.        }
+19.     }
+20. }
 
-// Гарний приклад
-public class Example {
-    public void doSomething() {
-       int a = 5;
-       if (a > 0) {
-          System.out.println("Позитивне число");
-       } else {
-          System.out.println("Негативне число");
-       }
-    }
-}
 
 4)	Рекомендація: Уникайте повторення коду
 Опис: Повторення коду ускладнює його обслуговування і підвищує ймовірність помилок. Виділяйте повторювані фрагменти коду в окремі методи.
-// Поганий приклад
-public class MathOperations {
-    public int addTen(int number) {
-       return number + 10;
-    }
+Приклад:
 
-    public int addTwenty(int number) {
-       return number + 20;
-    }
-}
+1. // Поганий приклад
+2. public class MathOperations {
+3.     public int addTen(int number) {
+4.        return number + 10;
+5.     }
+6.     public int addTwenty(int number) {
+7.        return number + 20;
+8.     }
+9. }
+10. // Гарний приклад
+11. public class MathOperations {
+12.     public int add(int number, int increment) {
+13.        return number + increment;
+14.     }
+15. }
 
-// Гарний приклад
-public class MathOperations {
-    public int add(int number, int increment) {
-       return number + increment;
-    }
-}
 
 5)	Рекомендація: Дотримуйтесь принципу єдиної відповідальності
 Опис: Java — об'єктно-орієнтована мова програмування, тому важливо дотримуватися принципів ООП, таких як інкапсуляція, наслідування, поліморфізм і принцип єдиної відповідальності. Це допомагає створювати модульний, гнучкий та зрозумілий код.
+Приклад:
 
-// Поганий приклад: клас не відповідає принципу єдиної відповідальності
-public class User {
-    public void registerUser(String name) {
-       System.out.println("Користувач " + name + " зареєстрований.");
-    }
-
-    public void logUserAction(String action) {
-       System.out.println("Дія: " + action);
-    }
-}
-
-// Гарний приклад: принцип єдиної відповідальності дотримано, кожен клас відповідає за свою функцію
-public class User {
-    public void registerUser(String name) {
-       System.out.println("Користувач " + name + " зареєстрований.");
-    }
-}
-
-public class Logger {
-    public void logUserAction(String action) {
-       System.out.println("Дія: " + action);
-    }
-}
+1. // Поганий приклад: клас не відповідає принципу єдиної відповідальності
+2. public class User {
+3.     public void registerUser(String name) {
+4.        System.out.println("Користувач " + name + " зареєстрований.");
+5.     }
+6.     public void logUserAction(String action) {
+7.        System.out.println("Дія: " + action);
+8.     }
+9. }
+10. // Гарний приклад: принцип єдиної відповідальності дотримано, кожен клас відповідає за свою функцію
+11. public class User {
+12.     public void registerUser(String name) {
+13.        System.out.println("Користувач " + name + " зареєстрований.");
+14.     }
+15. }
+16. 
+17. public class Logger {
+18.     public void logUserAction(String action) {
+19.        System.out.println("Дія: " + action);
+20.     }
+21. }
 
 6)	Рекомендація: Використовуйте обробку виключень для управління помилками
 Опис: У Java важливо правильно використовувати try-catch для обробки виключень. Не ігноруйте виключення, а обробляйте їх належним чином.
-// Поганий приклад
-try {
-    int result = 10 / 0;
-} catch (Exception e) {
-    // Нічого не робимо тому помилка не помітна
-}
+Приклад:
 
-// Гарний приклад
-try {
-    int result = 10 / 0;
-} catch (ArithmeticException e) {
-    System.out.println("Ділення на нуль!");
-}
+1. // Поганий приклад
+2. try {
+3.     int result = 10 / 0;
+4. } catch (Exception e) {
+5.     // Нічого не робимо тому помилка не помітна
+6. }
+7. // Гарний приклад
+8. try {
+9.     int result = 10 / 0;
+10. } catch (ArithmeticException e) {
+11.     System.out.println("Ділення на нуль!");
+12. }
 
 7)	Рекомендація: Тестування та документування коду
 Опис: Тестування і документування — невід'ємна частина розробки на Java. Написання тестів забезпечує коректну роботу коду і допомагає уникати помилок, а документування — робить код зрозумілим для інших розробників.
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+Приклад:
 
-public class MathOperationsTest {
-   @Test
-   public void testAdd() {
-      MathOperations operations = new MathOperations();
-      int result = operations.add(2, 3);
-      assertEquals(5, result); // Перевіряємо, чи результат дорівнює 5
-   }
-}
-
-// Коментар до коду для полегшення розуміння
-    /**
-     * Клас MathOperations містить методи для виконання базових математичних операцій.
-     */
-public class MathOperations {
-   /**
-    * Метод додає два числа.
-    * @param a перше число
-    * @param b друге число
-    * @return сума чисел a і b
-    */
-   public int add(int a, int b) {
-      return a + b;
-   }
-}
+1. import org.junit.jupiter.api.Test;
+2. import static org.junit.jupiter.api.Assertions.assertEquals;
+3. public class MathOperationsTest {
+4.    @Test
+5.    public void testAdd() {
+6.       MathOperations operations = new MathOperations();
+7.       int result = operations.add(2, 3);
+8.       assertEquals(5, result); // Перевіряємо, чи результат  дорівнює 5
+9.    }
+10. }
+11. // Коментар до коду для полегшення розуміння
+12.     /**
+13.      * Клас MathOperations містить методи для виконання базових математичних операцій.
+14.      */
+15. public class MathOperations {
+16.    /**
+17.     * Метод додає два числа.
+18.     * @param a перше число
+19.     * @param b друге число
+20.     * @return сума чисел a і b
+21.     */
+22.    public int add(int a, int b) {
+23.       return a + b;
+24.    }
+25. }
 
 	
 1.4 Висновок
-    Ознайомився з основними рекомендаціями щодо написання чистого, ефективного та підтримуваного коду для різних мов програмування, а також навчився аналізувати та рефакторити код для покращення його якості.
+    Під час виконання практичної роботи дізнався про історію створення та характерні особливості Java. Було досліджено та опановано основні рекомендації щодо написання чистого, ефективного та підтримуваного коду для обраної мови програмування.
     Посилання на GitHub репозиторій:
 https://github.com/NureMorhunovIhor/arkpz-pzpi-22-6-morhunov-ihor/tree/main/Pract1
     Посилання на Youtube відео з презентацією:
-//TODO
+https://www.youtube.com/watch?v=wuIrfZxihMI
 Список використаних джерел:
 1.	Oracle. Java Documentation. URL: https://docs.oracle.com/javase/ (дата звернення: 10.11.2024).
 2.	Bloch, J. Effective Java (3rd Edition). Addison-Wesley, 2018. URL: https://www.oreilly.com/library/view/effective-java-3rd/9780134686097/ (дата звернення: 10.11.2024).
