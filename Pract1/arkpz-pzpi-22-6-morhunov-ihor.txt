@@ -197,7 +197,7 @@
     Посилання на GitHub репозиторій:
 https://github.com/NureMorhunovIhor/arkpz-pzpi-22-6-morhunov-ihor/tree/main/Pract1
     Посилання на Youtube відео з презентацією:
-https://www.youtube.com/watch?v=wuIrfZxihMI
+https://www.youtube.com/watch?v=A8Kjb99OsOo
 Список використаних джерел:
 1.	Oracle. Java Documentation. URL: https://docs.oracle.com/javase/ (дата звернення: 10.11.2024).
 2.	Bloch, J. Effective Java (3rd Edition). Addison-Wesley, 2018. URL: https://www.oreilly.com/library/view/effective-java-3rd/9780134686097/ (дата звернення: 10.11.2024).
