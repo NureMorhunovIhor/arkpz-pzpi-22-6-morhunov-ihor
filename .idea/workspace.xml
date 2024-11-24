@@ -5,50 +5,51 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ec2a3521-162b-485e-ba5e-dcf36ae880f3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.gitattributes" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/mvnw.cmd" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/AutoInsureApplication.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/config/OpenApiConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/controller/CarController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/controller/IncidentController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/controller/MaintenanceController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/controller/PaymentController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/controller/PolicyController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/controller/SensorController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/controller/UserController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/dto/CarDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/dto/IncidentDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/dto/MaintenanceDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/dto/PaymentDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/dto/PolicyDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/dto/SensorDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/entity/Car.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/entity/Incident.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/entity/Maintenance.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/entity/Payment.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/entity/Policy.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/entity/Sensor.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/entity/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/repository/CarRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/repository/IncidentRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/repository/MaintenanceRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/repository/PaymentRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/repository/PolicyRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/repository/SensorRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/repository/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/service/CarService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/service/IncidentService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/service/MaintenanceService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/service/PaymentService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/service/PolicyService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/service/SensorService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/nure/atark/autoinsure/service/UserService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/org/nure/atark/autoinsure/AutoInsureApplicationTests.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/.gitattributes" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/.mvn/wrapper/maven-wrapper.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/mvnw" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/mvnw.cmd" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/AutoInsureApplication.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/config/OpenApiConfig.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/controller/CarController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/controller/IncidentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/controller/MaintenanceController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/controller/PaymentController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/controller/PolicyController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/controller/SensorController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/controller/UserController.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/dto/CarDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/dto/IncidentDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/dto/MaintenanceDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/dto/PaymentDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/dto/PolicyDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/dto/SensorDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/entity/Car.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/entity/Incident.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/entity/Maintenance.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/entity/Payment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/entity/Policy.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/entity/Sensor.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/repository/CarRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/repository/IncidentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/repository/MaintenanceRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/repository/PaymentRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/repository/PolicyRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/repository/SensorRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/repository/UserRepository.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/service/CarService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/service/IncidentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/service/MaintenanceService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/service/PaymentService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/service/PolicyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/service/SensorService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/java/org/nure/atark/autoinsure/service/UserService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/main/resources/application.properties" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Task2/arkpz-pzpi-22-6-Morhunov-Ihor-task2/src/test/java/org/nure/atark/autoinsure/AutoInsureApplicationTests.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -150,7 +151,9 @@
       <workItem from="1732378857478" duration="79000" />
       <workItem from="1732378946378" duration="70000" />
       <workItem from="1732379028192" duration="41000" />
-      <workItem from="1732379078089" duration="3442000" />
+      <workItem from="1732379078089" duration="3621000" />
+      <workItem from="1732459967332" duration="315000" />
+      <workItem from="1732460295941" duration="1062000" />
     </task>
     <servers />
   </component>
