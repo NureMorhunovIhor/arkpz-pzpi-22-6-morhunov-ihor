@@ -91,10 +91,15 @@ public class IncidentService {
         incidentDto.setIncidentDate(incident.getIncidentDate());
         incidentDto.setIncidentType(incident.getIncidentType());
         incidentDto.setDescription(incident.getDescription());
-        incidentDto.setCarId(incident.getCar().getId());
+        if (incident.getCar() != null) {
+            incidentDto.setCarId(incident.getCar().getId());
+        } else {
+            incidentDto.setCarId(null);
+        }
         if (incident.getSensor() != null) {
             incidentDto.setSensorId(incident.getSensor().getId());
         }
         return incidentDto;
     }
+
 }

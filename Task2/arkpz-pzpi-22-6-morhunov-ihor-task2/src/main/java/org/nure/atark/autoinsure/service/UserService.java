@@ -10,26 +10,25 @@ import java.util.List;
 @Service
 public class UserService {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
-    // Get all users
+    public UserService(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
+
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 
-    // Get user by ID
     public User getUserById(Integer id) {
         return userRepository.findById(id).orElseThrow(() ->
                 new RuntimeException("User with ID " + id + " not found."));
     }
 
-    // Add new user
     public User createUser(User user) {
         return userRepository.save(user);
     }
 
-    // Update existing user
     public User updateUser(Integer id, User userDetails) {
         User user = getUserById(id);
         user.setFirstName(userDetails.getFirstName());
@@ -40,7 +39,6 @@ public class UserService {
         return userRepository.save(user);
     }
 
-    // Delete user by ID
     public void deleteUser(Integer id) {
         User user = getUserById(id);
         userRepository.delete(user);

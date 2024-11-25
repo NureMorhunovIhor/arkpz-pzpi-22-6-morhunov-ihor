@@ -3,7 +3,7 @@ package org.nure.atark.autoinsure.entity;
 import jakarta.persistence.*;
 import org.hibernate.annotations.ColumnDefault;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "sensors")
@@ -20,7 +20,7 @@ public class Sensor {
 
     @ColumnDefault("getdate()")
     @Column(name = "LastUpdate", nullable = false)
-    private Instant lastUpdate;
+    private LocalDate lastUpdate;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "Car_id", nullable = false)
@@ -50,11 +50,11 @@ public class Sensor {
         this.currentState = currentState;
     }
 
-    public Instant getLastUpdate() {
+    public LocalDate getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Instant lastUpdate) {
+    public void setLastUpdate(LocalDate lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 

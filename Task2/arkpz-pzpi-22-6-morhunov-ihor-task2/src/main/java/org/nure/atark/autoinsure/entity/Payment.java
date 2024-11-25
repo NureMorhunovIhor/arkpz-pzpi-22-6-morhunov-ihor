@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "payments")
@@ -16,7 +17,7 @@ public class Payment {
 
     @ColumnDefault("getdate()")
     @Column(name = "PaymentDate", nullable = false)
-    private Instant paymentDate;
+    private LocalDate paymentDate;
 
     @Column(name = "PaymentMethod", nullable = false, length = 50)
     private String paymentMethod;
@@ -34,11 +35,11 @@ public class Payment {
         this.id = id;
     }
 
-    public Instant getPaymentDate() {
+    public LocalDate getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Instant paymentDate) {
+    public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
     }
 

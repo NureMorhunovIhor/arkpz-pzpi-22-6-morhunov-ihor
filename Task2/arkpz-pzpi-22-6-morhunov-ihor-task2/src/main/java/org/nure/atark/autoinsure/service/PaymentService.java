@@ -45,30 +45,6 @@ public class PaymentService {
         return convertToDto(savedPayment);
     }
 
-    public Optional<PaymentDto> updatePayment(Integer id, PaymentDto paymentDto) {
-        if (paymentRepository.existsById(id)) {
-            Payment payment = new Payment();
-            payment.setId(id);
-            payment.setPaymentDate(paymentDto.getPaymentDate());
-            payment.setPaymentMethod(paymentDto.getPaymentMethod());
-
-            Policy policy = new Policy();
-            policy.setId(paymentDto.getPolicyId());
-            payment.setPolicy(policy);
-
-            Payment updatedPayment = paymentRepository.save(payment);
-            return Optional.of(convertToDto(updatedPayment));
-        }
-        return Optional.empty();
-    }
-
-    public boolean deletePayment(Integer id) {
-        if (paymentRepository.existsById(id)) {
-            paymentRepository.deleteById(id);
-            return true;
-        }
-        return false;
-    }
 
     private PaymentDto convertToDto(Payment payment) {
         PaymentDto paymentDto = new PaymentDto();

@@ -81,7 +81,13 @@ public class MaintenanceService {
         maintenanceDto.setMaintenanceType(maintenance.getMaintenanceType());
         maintenanceDto.setDescription(maintenance.getDescription());
         maintenanceDto.setCost(maintenance.getCost());
-        maintenanceDto.setCarId(maintenance.getCar().getId());
+
+        if (maintenance.getCar() != null) {
+            maintenanceDto.setCarId(maintenance.getCar().getId());
+        } else {
+            maintenanceDto.setCarId(null);
+        }
         return maintenanceDto;
     }
+
 }

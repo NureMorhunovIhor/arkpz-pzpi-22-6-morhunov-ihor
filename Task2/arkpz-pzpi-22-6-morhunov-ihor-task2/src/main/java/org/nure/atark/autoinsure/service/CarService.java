@@ -18,20 +18,17 @@ public class CarService {
         this.carRepository = carRepository;
     }
 
-    // Получение всех машин с преобразованием в DTO
     public List<CarDto> getAllCars() {
         return carRepository.findAll().stream()
                 .map(this::convertToDto)
                 .toList();
     }
 
-    // Получение одной машины по ID с преобразованием в DTO
     public Optional<CarDto> getCarById(Integer id) {
         return carRepository.findById(id)
                 .map(this::convertToDto);
     }
 
-    // Сохранение машины с возвратом DTO
     public CarDto saveCar(Car car) {
         Car savedCar = carRepository.save(car);
         return convertToDto(savedCar);
@@ -46,7 +43,6 @@ public class CarService {
         return false;
     }
 
-    // Обновление машины с возвратом DTO
     public Optional<CarDto> updateCar(Integer id, Car carDetails) {
         return carRepository.findById(id)
                 .map(car -> {
@@ -60,15 +56,15 @@ public class CarService {
                 });
     }
 
-    // Преобразование сущности Car в DTO
-    private CarDto convertToDto(Car car) {
+    public CarDto convertToDto(Car car) {
         return new CarDto(
                 car.getId(),
                 car.getLicensePlate(),
                 car.getBrand(),
                 car.getModel(),
                 car.getYear(),
-                car.getUser().getId() // Берем только ID пользователя
-        );
+                car.getUser() != null ? car.getUser().getId() : null);
     }
+
+
 }

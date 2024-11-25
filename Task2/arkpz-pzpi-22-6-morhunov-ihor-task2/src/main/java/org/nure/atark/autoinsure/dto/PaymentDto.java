@@ -1,15 +1,14 @@
 package org.nure.atark.autoinsure.dto;
 
-import java.time.Instant;
+import java.time.LocalDate;
 
 public class PaymentDto {
 
     private Integer id;
-    private Instant paymentDate;
+    private LocalDate paymentDate;
     private String paymentMethod;
     private Integer policyId; // Ссылаемся на ID политики
 
-    // Геттеры и сеттеры
     public Integer getId() {
         return id;
     }
@@ -18,11 +17,11 @@ public class PaymentDto {
         this.id = id;
     }
 
-    public Instant getPaymentDate() {
+    public LocalDate getPaymentDate() {
         return paymentDate;
     }
 
-    public void setPaymentDate(Instant paymentDate) {
+    public void setPaymentDate(LocalDate paymentDate) {
         this.paymentDate = paymentDate;
     }
 

@@ -38,7 +38,7 @@ public class SensorService {
         sensor.setCurrentState(sensorDto.getCurrentState());
         sensor.setLastUpdate(sensorDto.getLastUpdate());
 
-        // Присваиваем car через ID
+
         Car car = new Car();
         car.setId(sensorDto.getCarId());
         sensor.setCar(car);
@@ -79,7 +79,12 @@ public class SensorService {
         sensorDto.setSensorType(sensor.getSensorType());
         sensorDto.setCurrentState(sensor.getCurrentState());
         sensorDto.setLastUpdate(sensor.getLastUpdate());
-        sensorDto.setCarId(sensor.getCar().getId());
+
+        if (sensor.getCar() != null) {
+            sensorDto.setCarId(sensor.getCar().getId());
+        }
+
         return sensorDto;
     }
+
 }

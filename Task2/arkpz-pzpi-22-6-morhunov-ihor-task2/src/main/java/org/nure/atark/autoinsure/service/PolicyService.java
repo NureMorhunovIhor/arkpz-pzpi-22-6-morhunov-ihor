@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -49,8 +50,8 @@ public class PolicyService {
 
     public Optional<PolicyDto> updatePolicy(Integer id, PolicyDto policyDto) {
         if (policyRepository.existsById(id)) {
-            Policy policy = new Policy();
-            policy.setId(id);
+            Policy policy = policyRepository.findById(id).orElseThrow(() -> new NoSuchElementException("Policy not found"));
+
             policy.setStartDate(policyDto.getStartDate());
             policy.setEndDate(policyDto.getEndDate());
             policy.setStatus(policyDto.getStatus());
@@ -65,6 +66,8 @@ public class PolicyService {
         }
         return Optional.empty();
     }
+
+
 
     public boolean deletePolicy(Integer id) {
         if (policyRepository.existsById(id)) {
@@ -81,7 +84,13 @@ public class PolicyService {
         policyDto.setEndDate(policy.getEndDate());
         policyDto.setStatus(policy.getStatus());
         policyDto.setPrice(policy.getPrice());
-        policyDto.setCarId(policy.getCar().getId());
+
+        if (policy.getCar() != null) {
+            policyDto.setCarId(policy.getCar().getId());
+        } else {
+            policyDto.setCarId(null);
+        }
         return policyDto;
     }
+
 }

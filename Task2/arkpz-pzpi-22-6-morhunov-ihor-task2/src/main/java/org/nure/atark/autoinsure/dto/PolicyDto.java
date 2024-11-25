@@ -10,9 +10,8 @@ public class PolicyDto {
     private LocalDate endDate;
     private String status;
     private BigDecimal price;
-    private Integer carId; // Ссылаемся на ID автомобиля
+    private Integer carId;
 
-    // Геттеры и сеттеры
     public Integer getId() {
         return id;
     }

@@ -1,16 +1,16 @@
 package org.nure.atark.autoinsure.dto;
 
 import java.time.Instant;
+import java.time.LocalDate;
 
 public class SensorDto {
 
     private Integer id;
     private String sensorType;
     private String currentState;
-    private Instant lastUpdate;
-    private Integer carId;  // Ссылаемся на ID автомобиля
+    private LocalDate lastUpdate;
+    private Integer carId;
 
-    // Геттеры и сеттеры
     public Integer getId() {
         return id;
     }
@@ -35,11 +35,11 @@ public class SensorDto {
         this.currentState = currentState;
     }
 
-    public Instant getLastUpdate() {
+    public LocalDate getLastUpdate() {
         return lastUpdate;
     }
 
-    public void setLastUpdate(Instant lastUpdate) {
+    public void setLastUpdate(LocalDate lastUpdate) {
         this.lastUpdate = lastUpdate;
     }
 
