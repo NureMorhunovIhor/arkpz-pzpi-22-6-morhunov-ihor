@@ -71,7 +71,7 @@ class CarControllerTest {
 
         var carDto = new CarDto(1, "AB123CD", "Toyota", "Camry", 2020, 1);
 
-        when(carService.saveCar(any(Car.class))).thenReturn(carDto);
+        when(carService.saveCar(any(CarDto.class))).thenReturn(Optional.of(carDto));
 
         mockMvc.perform(post("/api/cars")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -79,7 +79,7 @@ class CarControllerTest {
                 .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.licensePlate").value("AB123CD"));
 
-        verify(carService, times(1)).saveCar(any(Car.class));
+        verify(carService, times(1)).saveCar(any(CarDto.class));
     }
 
     @Test

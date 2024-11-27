@@ -1,11 +1,13 @@
 package org.nure.atark.autoinsure.dto;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 
 public class IncidentDto {
 
     private Integer id;
-    private Instant incidentDate;
+    private LocalDate incidentDate;
     private String incidentType;
     private String description;
     private Integer carId;
@@ -19,11 +21,11 @@ public class IncidentDto {
         this.id = id;
     }
 
-    public Instant getIncidentDate() {
+    public LocalDate getIncidentDate() {
         return incidentDate;
     }
 
-    public void setIncidentDate(Instant incidentDate) {
+    public void setIncidentDate(LocalDate incidentDate) {
         this.incidentDate = incidentDate;
     }
 

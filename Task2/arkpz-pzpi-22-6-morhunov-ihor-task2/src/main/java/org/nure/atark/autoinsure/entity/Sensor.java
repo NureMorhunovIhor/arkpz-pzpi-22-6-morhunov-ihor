@@ -1,29 +1,39 @@
 package org.nure.atark.autoinsure.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 
+import java.time.Instant;
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 
 @Entity
 @Table(name = "sensors")
 public class Sensor {
     @Id
-    @Column(name = "Sensor_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "sensor_id", nullable = false)
     private Integer id;
 
-    @Column(name = "SensorType", nullable = false, length = 50)
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "sensor_type", nullable = false, length = 50)
     private String sensorType;
 
-    @Column(name = "CurrentState", length = 50)
+    @Size(max = 50)
+    @Column(name = "current_state", length = 50)
     private String currentState;
 
+    @NotNull
     @ColumnDefault("getdate()")
-    @Column(name = "LastUpdate", nullable = false)
+    @Column(name = "last_update", nullable = false)
     private LocalDate lastUpdate;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "Car_id", nullable = false)
+    @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
     public Integer getId() {

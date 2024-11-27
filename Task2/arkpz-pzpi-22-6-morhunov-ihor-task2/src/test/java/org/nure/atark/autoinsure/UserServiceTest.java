@@ -2,7 +2,6 @@ package org.nure.atark.autoinsure;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.nure.atark.autoinsure.entity.User;
 import org.nure.atark.autoinsure.repository.UserRepository;
 import org.nure.atark.autoinsure.service.UserService;

@@ -1,10 +1,10 @@
 package org.nure.atark.autoinsure.service;
 
 import org.nure.atark.autoinsure.dto.IncidentDto;
-import org.nure.atark.autoinsure.entity.Incident;
-import org.nure.atark.autoinsure.repository.IncidentRepository;
 import org.nure.atark.autoinsure.entity.Car;
+import org.nure.atark.autoinsure.entity.Incident;
 import org.nure.atark.autoinsure.entity.Sensor;
+import org.nure.atark.autoinsure.repository.IncidentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

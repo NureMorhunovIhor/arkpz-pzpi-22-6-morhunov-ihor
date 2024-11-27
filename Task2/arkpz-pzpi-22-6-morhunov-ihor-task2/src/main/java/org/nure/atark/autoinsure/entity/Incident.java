@@ -1,38 +1,47 @@
 package org.nure.atark.autoinsure.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
 import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name = "incidents")
 public class Incident {
     @Id
-    @Column(name = "Incident_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "incident_id", nullable = false)
     private Integer id;
 
+    @NotNull
     @ColumnDefault("getdate()")
-    @Column(name = "IncidentDate", nullable = false)
-    private Instant incidentDate;
+    @Column(name = "incident_date", nullable = false)
+    private LocalDate incidentDate;
 
-    @Column(name = "IncidentType", nullable = false, length = 50)
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "incident_type", nullable = false, length = 50)
     private String incidentType;
 
     @Lob
-    @Column(name = "Description")
+    @Column(name = "description")
     private String description;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "Car_id", nullable = false)
+    @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @OnDelete(action = OnDeleteAction.SET_NULL)
-    @JoinColumn(name = "Sensor_id")
+    @JoinColumn(name = "sensor_id")
     private Sensor sensor;
 
     public Integer getId() {
@@ -43,11 +52,11 @@ public class Incident {
         this.id = id;
     }
 
-    public Instant getIncidentDate() {
+    public LocalDate getIncidentDate() {
         return incidentDate;
     }
 
-    public void setIncidentDate(Instant incidentDate) {
+    public void setIncidentDate(LocalDate incidentDate) {
         this.incidentDate = incidentDate;
     }
 

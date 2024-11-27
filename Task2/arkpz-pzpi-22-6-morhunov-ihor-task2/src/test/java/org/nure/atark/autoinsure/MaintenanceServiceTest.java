@@ -2,11 +2,8 @@ package org.nure.atark.autoinsure;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
 import org.nure.atark.autoinsure.dto.MaintenanceDto;
 import org.nure.atark.autoinsure.entity.Maintenance;
-import org.nure.atark.autoinsure.entity.Car;
 import org.nure.atark.autoinsure.repository.MaintenanceRepository;
 import org.nure.atark.autoinsure.service.MaintenanceService;
 

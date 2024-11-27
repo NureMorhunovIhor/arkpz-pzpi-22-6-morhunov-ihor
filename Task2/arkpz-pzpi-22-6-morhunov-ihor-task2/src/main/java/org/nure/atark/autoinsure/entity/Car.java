@@ -1,6 +1,8 @@
 package org.nure.atark.autoinsure.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -9,24 +11,32 @@ import org.hibernate.annotations.OnDeleteAction;
 public class Car {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "Car_id", nullable = false)
+    @Column(name = "car_id", nullable = false)
     private Integer id;
 
-    @Column(name = "LicensePlate", nullable = false, length = 20)
+    @Size(max = 20)
+    @NotNull
+    @Column(name = "license_plate", nullable = false, length = 20)
     private String licensePlate;
 
-    @Column(name = "Brand", nullable = false, length = 50)
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "brand", nullable = false, length = 50)
     private String brand;
 
-    @Column(name = "Model", nullable = false, length = 50)
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "model", nullable = false, length = 50)
     private String model;
 
-    @Column(name = "\"Year\"", nullable = false)
+    @NotNull
+    @Column(name = "\"year\"", nullable = false)
     private Integer year;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "User_id", nullable = false)
+    @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
     public Integer getId() {

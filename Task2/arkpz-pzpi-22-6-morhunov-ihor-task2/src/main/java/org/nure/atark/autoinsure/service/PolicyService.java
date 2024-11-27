@@ -1,8 +1,8 @@
 package org.nure.atark.autoinsure.service;
 
 import org.nure.atark.autoinsure.dto.PolicyDto;
-import org.nure.atark.autoinsure.entity.Policy;
 import org.nure.atark.autoinsure.entity.Car;
+import org.nure.atark.autoinsure.entity.Policy;
 import org.nure.atark.autoinsure.repository.PolicyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

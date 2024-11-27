@@ -2,9 +2,12 @@ package org.nure.atark.autoinsure.service;
 
 import org.nure.atark.autoinsure.dto.CarDto;
 import org.nure.atark.autoinsure.entity.Car;
+import org.nure.atark.autoinsure.entity.User;
 import org.nure.atark.autoinsure.repository.CarRepository;
+import org.nure.atark.autoinsure.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -12,10 +15,12 @@ import java.util.Optional;
 public class CarService {
 
     private final CarRepository carRepository;
+    private final UserRepository userRepository;
 
     @Autowired
-    public CarService(CarRepository carRepository) {
+    public CarService(CarRepository carRepository, UserRepository userRepository) {
         this.carRepository = carRepository;
+        this.userRepository = userRepository;
     }
 
     public List<CarDto> getAllCars() {
@@ -29,12 +34,22 @@ public class CarService {
                 .map(this::convertToDto);
     }
 
-    public CarDto saveCar(Car car) {
+    public Optional<CarDto> saveCar(CarDto carDto) {
+        Optional<User> user = carDto.getUserId() != null
+                ? userRepository.findById(carDto.getUserId())
+                : Optional.empty();
+
+        Car car = new Car();
+        car.setLicensePlate(carDto.getLicensePlate());
+        car.setBrand(carDto.getBrand());
+        car.setModel(carDto.getModel());
+        car.setYear(carDto.getYear());
+        user.ifPresent(car::setUser);
+
         Car savedCar = carRepository.save(car);
-        return convertToDto(savedCar);
+        return Optional.of(convertToDto(savedCar));
     }
 
-    // Удаление машины
     public boolean deleteCar(Integer id) {
         if (carRepository.existsById(id)) {
             carRepository.deleteById(id);
@@ -43,28 +58,34 @@ public class CarService {
         return false;
     }
 
-    public Optional<CarDto> updateCar(Integer id, Car carDetails) {
+    public Optional<CarDto> updateCar(Integer id, CarDto carDto) {
         return carRepository.findById(id)
                 .map(car -> {
-                    car.setLicensePlate(carDetails.getLicensePlate());
-                    car.setBrand(carDetails.getBrand());
-                    car.setModel(carDetails.getModel());
-                    car.setYear(carDetails.getYear());
-                    car.setUser(carDetails.getUser());
+                    car.setLicensePlate(carDto.getLicensePlate());
+                    car.setBrand(carDto.getBrand());
+                    car.setModel(carDto.getModel());
+                    car.setYear(carDto.getYear());
+
+                    if (carDto.getUserId() != null) {
+                        Optional<User> user = userRepository.findById(carDto.getUserId());
+                        user.ifPresent(car::setUser);
+                    } else {
+                        car.setUser(null);
+                    }
+
                     Car updatedCar = carRepository.save(car);
                     return convertToDto(updatedCar);
                 });
     }
 
-    public CarDto convertToDto(Car car) {
+    private CarDto convertToDto(Car car) {
         return new CarDto(
                 car.getId(),
                 car.getLicensePlate(),
                 car.getBrand(),
                 car.getModel(),
                 car.getYear(),
-                car.getUser() != null ? car.getUser().getId() : null);
+                car.getUser() != null ? car.getUser().getId() : null
+        );
     }
-
-
 }

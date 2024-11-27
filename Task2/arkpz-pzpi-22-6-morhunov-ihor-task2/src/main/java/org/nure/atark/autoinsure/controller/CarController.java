@@ -2,12 +2,11 @@ package org.nure.atark.autoinsure.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.nure.atark.autoinsure.dto.CarDto;
-import org.nure.atark.autoinsure.entity.Car;
 import org.nure.atark.autoinsure.service.CarService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -31,7 +30,8 @@ public class CarController {
     @Operation(summary = "Retrieve all cars", description = "Fetch a list of all cars in the system.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of cars retrieved successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CarDto.class)))
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CarDto.class)))
     })
     @GetMapping
     public ResponseEntity<List<CarDto>> getAllCars() {
@@ -42,51 +42,86 @@ public class CarController {
     @Operation(summary = "Retrieve a car by ID", description = "Fetch a single car by its ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Car retrieved successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CarDto.class))),
-            @ApiResponse(responseCode = "404", description = "Car not found")
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CarDto.class))),
+            @ApiResponse(responseCode = "404", description = "Car not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<CarDto> getCarById(@PathVariable Integer id) {
-        return carService.getCarById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> getCarById(@PathVariable Integer id) {
+        try {
+            Optional<CarDto> car = carService.getCarById(id);
+            return ResponseEntity.ok(car);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
     @Operation(summary = "Create a new car", description = "Add a new car to the system.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Car created successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CarDto.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid input data")
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CarDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input data",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @PostMapping
-    public ResponseEntity<CarDto> createCar(@RequestBody Car car) {
-        CarDto createdCar = carService.saveCar(car);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdCar);
+    public ResponseEntity<?> createCar(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Details of the car to create",
+                    required = true,
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\n  \"licensePlate\": \"string\",\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"userId\": 0\n}"),
+                            schema = @Schema(implementation = CarDto.class)))
+            @RequestBody CarDto carDto) {
+        try {
+            Optional<CarDto> createdCar = carService.saveCar(carDto);
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdCar);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
     @Operation(summary = "Update an existing car", description = "Modify the details of an existing car by its ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Car updated successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = CarDto.class))),
-            @ApiResponse(responseCode = "404", description = "Car not found")
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CarDto.class))),
+            @ApiResponse(responseCode = "404", description = "Car not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<CarDto> updateCar(@PathVariable Integer id, @RequestBody Car carDetails) {
-        return carService.updateCar(id, carDetails)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> updateCar(@PathVariable Integer id,
+                                       @RequestBody CarDto carDto) {
+        try {
+            Optional<CarDto> updatedCar = carService.updateCar(id, carDto);
+            return ResponseEntity.ok(updatedCar);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
     @Operation(summary = "Delete a car", description = "Remove a car from the system by its ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Car deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Car not found")
+            @ApiResponse(responseCode = "404", description = "Car not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCar(@PathVariable Integer id) {
-        if (carService.deleteCar(id)) {
+    public ResponseEntity<?> deleteCar(@PathVariable Integer id) {
+        try {
+            carService.deleteCar(id);
             return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
         }
-        return ResponseEntity.notFound().build();
     }
 }

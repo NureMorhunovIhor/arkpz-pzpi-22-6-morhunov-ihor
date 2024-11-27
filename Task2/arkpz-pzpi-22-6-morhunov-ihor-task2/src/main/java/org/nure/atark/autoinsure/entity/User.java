@@ -1,6 +1,8 @@
 package org.nure.atark.autoinsure.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 
 @Entity
@@ -8,23 +10,32 @@ import org.hibernate.annotations.ColumnDefault;
 public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "User_id", nullable = false)
+    @Column(name = "user_id", nullable = false)
     private Integer id;
 
-    @Column(name = "FirstName", nullable = false, length = 50)
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "first_name", nullable = false, length = 50)
     private String firstName;
 
-    @Column(name = "LastName", nullable = false, length = 50)
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "last_name", nullable = false, length = 50)
     private String lastName;
 
-    @Column(name = "Email", nullable = false, length = 100)
+    @Size(max = 100)
+    @NotNull
+    @Column(name = "email", nullable = false, length = 100)
     private String email;
 
-    @Column(name = "Phone", length = 15)
+    @Size(max = 15)
+    @Column(name = "phone", length = 15)
     private String phone;
 
-    @ColumnDefault("'Client'")
-    @Column(name = "Role", nullable = false, length = 20)
+    @Size(max = 20)
+    @NotNull
+    @ColumnDefault("'client'")
+    @Column(name = "role", nullable = false, length = 20)
     private String role;
 
     public Integer getId() {

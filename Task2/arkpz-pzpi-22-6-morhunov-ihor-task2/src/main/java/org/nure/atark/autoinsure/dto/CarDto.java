@@ -17,6 +17,8 @@ public class CarDto {
         this.year = year;
         this.userId = userId;
     }
+    public CarDto() {
+    }
 
     public Integer getId() {
         return id;

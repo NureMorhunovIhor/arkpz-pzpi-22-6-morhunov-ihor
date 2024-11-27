@@ -1,10 +1,13 @@
 package org.nure.atark.autoinsure.controller;
 
-import org.nure.atark.autoinsure.dto.IncidentDto;
-import org.nure.atark.autoinsure.service.IncidentService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.nure.atark.autoinsure.dto.IncidentDto;
+import org.nure.atark.autoinsure.service.IncidentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -22,9 +25,11 @@ public class IncidentController {
         this.incidentService = incidentService;
     }
 
-    @Operation(summary = "Retrieve all incidents")
+    @Operation(summary = "Retrieve all incidents", description = "Fetch a list of all incidents in the system.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of incidents retrieved successfully")
+            @ApiResponse(responseCode = "200", description = "List of incidents retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = IncidentDto.class)))
     })
     @GetMapping
     public ResponseEntity<List<IncidentDto>> getAllIncidents() {
@@ -32,45 +37,89 @@ public class IncidentController {
         return ResponseEntity.ok(incidents);
     }
 
-    @Operation(summary = "Retrieve an incident by ID")
+    @Operation(summary = "Retrieve an incident by ID", description = "Fetch a single incident by its ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Incident retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "Incident not found")
+            @ApiResponse(responseCode = "200", description = "Incident retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = IncidentDto.class))),
+            @ApiResponse(responseCode = "404", description = "Incident not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<IncidentDto> getIncidentById(@PathVariable Integer id) {
-        Optional<IncidentDto> incident = incidentService.getIncidentById(id);
-        return incident.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> getIncidentById(@PathVariable Integer id) {
+        try {
+            Optional<IncidentDto> incident = incidentService.getIncidentById(id);
+            return ResponseEntity.ok(incident);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
-    @Operation(summary = "Create a new incident")
+    @Operation(summary = "Create a new incident", description = "Add a new incident to the system.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Incident created successfully")
+            @ApiResponse(responseCode = "201", description = "Incident created successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = IncidentDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input data",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @PostMapping
-    public ResponseEntity<IncidentDto> createIncident(@RequestBody IncidentDto incidentDto) {
-        IncidentDto createdIncident = incidentService.createIncident(incidentDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdIncident);
+    public ResponseEntity<?> createIncident(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Details of the incident to create",
+                    required = true,
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\n  \"incidentDate\": \"2024-11-27\",\n  \"incidentType\": \"string\",\n  \"description\": \"string\",\n  \"carId\": 0,\n  \"sensorId\": 0}"),
+                            schema = @Schema(implementation = IncidentDto.class)))
+            @RequestBody IncidentDto incidentDto) {
+        try {
+            Optional<IncidentDto> createdIncident = Optional.ofNullable(incidentService.createIncident(incidentDto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdIncident);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
-    @Operation(summary = "Update an incident")
+    @Operation(summary = "Update an existing incident", description = "Modify the details of an existing incident by its ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Incident updated successfully"),
-            @ApiResponse(responseCode = "404", description = "Incident not found")
+            @ApiResponse(responseCode = "200", description = "Incident updated successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = IncidentDto.class))),
+            @ApiResponse(responseCode = "404", description = "Incident not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<IncidentDto> updateIncident(@PathVariable Integer id, @RequestBody IncidentDto incidentDto) {
-        Optional<IncidentDto> updatedIncident = incidentService.updateIncident(id, incidentDto);
-        return updatedIncident.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> updateIncident(@PathVariable Integer id,
+                                            @RequestBody IncidentDto incidentDto) {
+        try {
+            Optional<IncidentDto> updatedIncident = incidentService.updateIncident(id, incidentDto);
+            return ResponseEntity.ok(updatedIncident);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
-    @Operation(summary = "Delete an incident")
+    @Operation(summary = "Delete an incident", description = "Remove an incident from the system by its ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Incident deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Incident not found")
+            @ApiResponse(responseCode = "404", description = "Incident not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteIncident(@PathVariable Integer id) {
-        return incidentService.deleteIncident(id) ? ResponseEntity.noContent().build() : ResponseEntity.notFound().build();
+    public ResponseEntity<?> deleteIncident(@PathVariable Integer id) {
+        try {
+            incidentService.deleteIncident(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 }

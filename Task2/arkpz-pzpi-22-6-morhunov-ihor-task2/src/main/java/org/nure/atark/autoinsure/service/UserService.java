@@ -2,7 +2,6 @@ package org.nure.atark.autoinsure.service;
 
 import org.nure.atark.autoinsure.entity.User;
 import org.nure.atark.autoinsure.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;

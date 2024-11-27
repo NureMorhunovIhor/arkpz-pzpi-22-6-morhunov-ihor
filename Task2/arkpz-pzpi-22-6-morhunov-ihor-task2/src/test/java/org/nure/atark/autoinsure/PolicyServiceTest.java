@@ -6,8 +6,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nure.atark.autoinsure.dto.PolicyDto;
-import org.nure.atark.autoinsure.entity.Policy;
 import org.nure.atark.autoinsure.entity.Car;
+import org.nure.atark.autoinsure.entity.Policy;
 import org.nure.atark.autoinsure.repository.PolicyRepository;
 import org.nure.atark.autoinsure.service.PolicyService;
 

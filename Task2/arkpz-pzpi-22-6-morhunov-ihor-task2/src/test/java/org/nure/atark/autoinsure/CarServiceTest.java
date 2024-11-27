@@ -2,11 +2,11 @@ package org.nure.atark.autoinsure;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 import org.nure.atark.autoinsure.dto.CarDto;
 import org.nure.atark.autoinsure.entity.Car;
 import org.nure.atark.autoinsure.entity.User;
 import org.nure.atark.autoinsure.repository.CarRepository;
+import org.nure.atark.autoinsure.repository.UserRepository;
 import org.nure.atark.autoinsure.service.CarService;
 
 import java.util.Arrays;
@@ -20,12 +20,15 @@ class CarServiceTest {
 
     private CarRepository carRepository;
     private CarService carService;
+    private UserRepository userRepository;
 
     @BeforeEach
     void setUp() {
         carRepository = mock(CarRepository.class);
-        carService = new CarService(carRepository);
+        userRepository = mock(UserRepository.class);
+        carService = new CarService(carRepository, userRepository);
     }
+
 
     @Test
     void testGetAllCars() {
@@ -85,8 +88,13 @@ class CarServiceTest {
 
     @Test
     void testSaveCar() {
-        var user = mock(User.class);
-        when(user.getId()).thenReturn(1);
+        var carDto = new CarDto();
+        carDto.setLicensePlate("AB123CD");
+        carDto.setBrand("Toyota");
+        carDto.setUserId(1);
+
+        var user = new User();
+        user.setId(1);
 
         var car = new Car();
         car.setLicensePlate("AB123CD");
@@ -99,15 +107,18 @@ class CarServiceTest {
         savedCar.setBrand("Toyota");
         savedCar.setUser(user);
 
-        when(carRepository.save(car)).thenReturn(savedCar);
+        when(userRepository.findById(1)).thenReturn(Optional.of(user));
+        when(carRepository.save(any(Car.class))).thenReturn(savedCar);
 
-        CarDto carDto = carService.saveCar(car);
+        Optional<CarDto> result = carService.saveCar(carDto);
 
-        assertNotNull(carDto);
-        assertEquals(1, carDto.getId());
-        assertEquals("AB123CD", carDto.getLicensePlate());
-        verify(carRepository, times(1)).save(car);
+        assertTrue(result.isPresent());
+        assertEquals(1, result.get().getId());
+        assertEquals("AB123CD", result.get().getLicensePlate());
+        verify(userRepository, times(1)).findById(1);
+        verify(carRepository, times(1)).save(any(Car.class));
     }
+
 
 
     @Test

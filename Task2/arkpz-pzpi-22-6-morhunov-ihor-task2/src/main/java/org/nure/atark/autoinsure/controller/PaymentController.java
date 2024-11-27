@@ -1,10 +1,14 @@
 package org.nure.atark.autoinsure.controller;
 
-import org.nure.atark.autoinsure.dto.PaymentDto;
-import org.nure.atark.autoinsure.service.PaymentService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.nure.atark.autoinsure.dto.PaymentDto;
+import org.nure.atark.autoinsure.service.PaymentService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,13 +22,16 @@ public class PaymentController {
 
     private final PaymentService paymentService;
 
+    @Autowired
     public PaymentController(PaymentService paymentService) {
         this.paymentService = paymentService;
     }
 
-    @Operation(summary = "Retrieve all payment records")
+    @Operation(summary = "Retrieve all payment records", description = "Fetch a list of all payment records in the system.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "List of payments retrieved successfully")
+            @ApiResponse(responseCode = "200", description = "List of payments retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PaymentDto.class)))
     })
     @GetMapping
     public ResponseEntity<List<PaymentDto>> getAllPayments() {
@@ -32,25 +39,51 @@ public class PaymentController {
         return ResponseEntity.ok(payments);
     }
 
-    @Operation(summary = "Retrieve payment by ID")
+    @Operation(summary = "Retrieve payment by ID", description = "Fetch a single payment by its ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Payment record retrieved successfully"),
-            @ApiResponse(responseCode = "404", description = "Payment record not found")
+            @ApiResponse(responseCode = "200", description = "Payment retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PaymentDto.class))),
+            @ApiResponse(responseCode = "404", description = "Payment not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<PaymentDto> getPaymentById(@PathVariable Integer id) {
-        Optional<PaymentDto> payment = paymentService.getPaymentById(id);
-        return payment.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> getPaymentById(@PathVariable Integer id) {
+        try {
+            Optional<PaymentDto> payment = paymentService.getPaymentById(id);
+            return ResponseEntity.ok(payment);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
-    @Operation(summary = "Create a new payment record")
+    @Operation(summary = "Create a new payment record", description = "Add a new payment record to the system.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Payment record created successfully")
+            @ApiResponse(responseCode = "201", description = "Payment created successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PaymentDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input data",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @PostMapping
-    public ResponseEntity<PaymentDto> createPayment(@RequestBody PaymentDto paymentDto) {
-        PaymentDto createdPayment = paymentService.createPayment(paymentDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdPayment);
+    public ResponseEntity<?> createPayment(
+            @io.swagger.v3.oas.annotations.parameters.RequestBody(
+                    description = "Details of the payment to create",
+                    required = true,
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\n  \"paymentDate\": \"string\",\n  \"paymentMethod\": \"string\",\n  \"policyId\": 0\n}"),
+                            schema = @Schema(implementation = PaymentDto.class)))
+            @RequestBody PaymentDto paymentDto) {
+        try {
+            Optional<PaymentDto> createdPayment = Optional.ofNullable(paymentService.createPayment(paymentDto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdPayment);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
 }

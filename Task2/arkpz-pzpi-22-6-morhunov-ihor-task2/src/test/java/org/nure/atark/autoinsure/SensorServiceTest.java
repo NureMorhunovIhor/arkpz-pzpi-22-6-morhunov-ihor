@@ -6,15 +6,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.nure.atark.autoinsure.dto.SensorDto;
-import org.nure.atark.autoinsure.entity.Sensor;
 import org.nure.atark.autoinsure.entity.Car;
+import org.nure.atark.autoinsure.entity.Sensor;
+import org.nure.atark.autoinsure.repository.CarRepository;
 import org.nure.atark.autoinsure.repository.SensorRepository;
 import org.nure.atark.autoinsure.service.SensorService;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,9 @@ public class SensorServiceTest {
     @Mock
     private SensorRepository sensorRepository;
 
+    @Mock
+    private CarRepository carRepository;
+
     @InjectMocks
     private SensorService sensorService;
 
@@ -32,7 +36,7 @@ public class SensorServiceTest {
         SensorDto sensorDto = new SensorDto();
         sensorDto.setSensorType("Tire Pressure");
         sensorDto.setCurrentState("Normal");
-        sensorDto.setLastUpdate(LocalDate.now());
+        sensorDto.setLastUpdate(OffsetDateTime.now().toLocalDate());
         sensorDto.setCarId(1);
 
         Sensor sensor = new Sensor();
@@ -44,6 +48,7 @@ public class SensorServiceTest {
         car.setId(sensorDto.getCarId());
         sensor.setCar(car);
 
+        when(carRepository.findById(1)).thenReturn(Optional.of(car));
         when(sensorRepository.save(any(Sensor.class))).thenReturn(sensor);
 
         SensorDto createdSensor = sensorService.createSensor(sensorDto);
@@ -52,6 +57,7 @@ public class SensorServiceTest {
         assertEquals(sensorDto.getSensorType(), createdSensor.getSensorType());
         assertEquals(sensorDto.getCurrentState(), createdSensor.getCurrentState());
         verify(sensorRepository, times(1)).save(any(Sensor.class));
+        verify(carRepository, times(1)).findById(1);
     }
 
     @Test
@@ -59,30 +65,32 @@ public class SensorServiceTest {
         SensorDto sensorDto = new SensorDto();
         sensorDto.setSensorType("Fuel Level");
         sensorDto.setCurrentState("Full");
-        sensorDto.setLastUpdate(LocalDate.now());
+        sensorDto.setLastUpdate(OffsetDateTime.now().toLocalDate());
         sensorDto.setCarId(1);
 
         Sensor existingSensor = new Sensor();
         existingSensor.setId(1);
         existingSensor.setSensorType("Fuel Level");
         existingSensor.setCurrentState("Half");
-        existingSensor.setLastUpdate(LocalDate.now());
+        existingSensor.setLastUpdate(OffsetDateTime.now().toLocalDate());
+
+        Car car = new Car();
+        car.setId(1);
 
         when(sensorRepository.existsById(1)).thenReturn(true);
-        when(sensorRepository.save(any(Sensor.class))).thenAnswer(invocation -> {
-            Sensor sensorToSave = invocation.getArgument(0);
-            sensorToSave.setCurrentState(sensorDto.getCurrentState());
-            return sensorToSave;
-        });
-
+        when(sensorRepository.findById(1)).thenReturn(Optional.of(existingSensor));
+        when(carRepository.findById(1)).thenReturn(Optional.of(car));
+        when(sensorRepository.save(any(Sensor.class))).thenAnswer(invocation -> invocation.getArgument(0));
 
         Optional<SensorDto> updatedSensor = sensorService.updateSensor(1, sensorDto);
 
         assertTrue(updatedSensor.isPresent());
         assertEquals(sensorDto.getSensorType(), updatedSensor.get().getSensorType());
         assertEquals(sensorDto.getCurrentState(), updatedSensor.get().getCurrentState());
+        verify(sensorRepository, times(1)).findById(1);
+        verify(sensorRepository, times(1)).save(any(Sensor.class));
+        verify(carRepository, times(1)).findById(1);
     }
-
 
 
     @Test

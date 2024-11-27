@@ -12,7 +12,8 @@ import org.nure.atark.autoinsure.entity.Policy;
 import org.nure.atark.autoinsure.repository.PaymentRepository;
 import org.nure.atark.autoinsure.service.PaymentService;
 
-import java.time.LocalDate;
+import java.sql.Date;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -36,13 +37,13 @@ class PaymentServiceTest {
     void setUp() {
         paymentDto = new PaymentDto();
         paymentDto.setId(1);
-        paymentDto.setPaymentDate(LocalDate.of(2024, 11, 25));
+        //paymentDto.setPaymentDate();
         paymentDto.setPaymentMethod("Credit Card");
         paymentDto.setPolicyId(1001);
 
         payment = new Payment();
         payment.setId(1);
-        paymentDto.setPaymentDate(LocalDate.of(2024, 11, 25));
+        //paymentDto.setPaymentDate(OffsetDateTime.now());
         payment.setPaymentMethod("Credit Card");
 
         Policy policy = new Policy();

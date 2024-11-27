@@ -14,6 +14,7 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.Optional;
 
@@ -40,14 +41,14 @@ class SensorControllerTest {
         sensorDto1.setId(1);
         sensorDto1.setSensorType("Tire Pressure");
         sensorDto1.setCurrentState("Normal");
-        sensorDto1.setLastUpdate(LocalDate.now());
+        sensorDto1.setLastUpdate(OffsetDateTime.now().toLocalDate());
         sensorDto1.setCarId(1);
 
         SensorDto sensorDto2 = new SensorDto();
         sensorDto2.setId(2);
         sensorDto2.setSensorType("Fuel Level");
         sensorDto2.setCurrentState("Full");
-        sensorDto2.setLastUpdate(LocalDate.now());
+        sensorDto2.setLastUpdate(OffsetDateTime.now().toLocalDate());
         sensorDto2.setCarId(1);
 
         when(sensorService.getAllSensors()).thenReturn(Arrays.asList(sensorDto1, sensorDto2));
@@ -69,7 +70,7 @@ class SensorControllerTest {
         sensorDto.setId(1);
         sensorDto.setSensorType("Tire Pressure");
         sensorDto.setCurrentState("Normal");
-        sensorDto.setLastUpdate(LocalDate.now());
+        sensorDto.setLastUpdate(OffsetDateTime.now().toLocalDate());
         sensorDto.setCarId(1);
 
         when(sensorService.getSensorById(1)).thenReturn(Optional.of(sensorDto));
@@ -87,7 +88,7 @@ class SensorControllerTest {
         SensorDto sensorDto = new SensorDto();
         sensorDto.setSensorType("Tire Pressure");
         sensorDto.setCurrentState("Normal");
-        sensorDto.setLastUpdate(LocalDate.now());
+        sensorDto.setLastUpdate(LocalDate.from(OffsetDateTime.now()));
         sensorDto.setCarId(1);
 
         SensorDto createdSensor = new SensorDto();
@@ -114,7 +115,7 @@ class SensorControllerTest {
         SensorDto sensorDto = new SensorDto();
         sensorDto.setSensorType("Tire Pressure");
         sensorDto.setCurrentState("Low");
-        sensorDto.setLastUpdate(LocalDate.now());
+        sensorDto.setLastUpdate(OffsetDateTime.now().toLocalDate());
         sensorDto.setCarId(1);
 
         SensorDto updatedSensor = new SensorDto();

@@ -1,6 +1,8 @@
 package org.nure.atark.autoinsure.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -12,25 +14,32 @@ import java.time.LocalDate;
 @Table(name = "policies")
 public class Policy {
     @Id
-    @Column(name = "Policy_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "policy_id", nullable = false)
     private Integer id;
 
-    @Column(name = "StartDate", nullable = false)
+    @NotNull
+    @Column(name = "start_date", nullable = false)
     private LocalDate startDate;
 
-    @Column(name = "EndDate", nullable = false)
+    @NotNull
+    @Column(name = "end_date", nullable = false)
     private LocalDate endDate;
 
-    @ColumnDefault("'Active'")
-    @Column(name = "Status", nullable = false, length = 20)
+    @Size(max = 20)
+    @NotNull
+    @ColumnDefault("'active'")
+    @Column(name = "status", nullable = false, length = 20)
     private String status;
 
-    @Column(name = "Price", nullable = false, precision = 10, scale = 2)
+    @NotNull
+    @Column(name = "price", nullable = false, precision = 10, scale = 2)
     private BigDecimal price;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "Car_id", nullable = false)
+    @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
     public Integer getId() {

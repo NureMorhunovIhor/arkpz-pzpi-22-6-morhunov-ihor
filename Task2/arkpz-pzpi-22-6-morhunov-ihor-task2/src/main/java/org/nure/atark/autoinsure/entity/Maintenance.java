@@ -1,6 +1,8 @@
 package org.nure.atark.autoinsure.entity;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
@@ -11,25 +13,31 @@ import java.time.LocalDate;
 @Table(name = "maintenance")
 public class Maintenance {
     @Id
-    @Column(name = "Maintenance_id", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "maintenance_id", nullable = false)
     private Integer id;
 
-    @Column(name = "MaintenanceDate", nullable = false)
+    @NotNull
+    @Column(name = "maintenance_date", nullable = false)
     private LocalDate maintenanceDate;
 
-    @Column(name = "MaintenanceType", nullable = false, length = 50)
+    @Size(max = 50)
+    @NotNull
+    @Column(name = "maintenance_type", nullable = false, length = 50)
     private String maintenanceType;
 
     @Lob
-    @Column(name = "Description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name = "Cost", nullable = false, precision = 10, scale = 2)
+    @NotNull
+    @Column(name = "cost", nullable = false, precision = 10, scale = 2)
     private BigDecimal cost;
 
+    @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
-    @JoinColumn(name = "Car_id", nullable = false)
+    @JoinColumn(name = "car_id", nullable = false)
     private Car car;
 
     public Integer getId() {

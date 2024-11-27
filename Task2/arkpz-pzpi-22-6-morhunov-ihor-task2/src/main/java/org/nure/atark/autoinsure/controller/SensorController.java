@@ -2,10 +2,11 @@ package org.nure.atark.autoinsure.controller;
 
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.ExampleObject;
 import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.parameters.RequestBody;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.nure.atark.autoinsure.dto.PolicyDto;
 import org.nure.atark.autoinsure.dto.SensorDto;
 import org.nure.atark.autoinsure.service.SensorService;
 import org.springframework.http.HttpStatus;
@@ -25,10 +26,11 @@ public class SensorController {
         this.sensorService = sensorService;
     }
 
-    @Operation(summary = "Retrieve all sensors", description = "Fetch a list of all sensors in the system.")
+    @Operation(summary = "Retrieve all sensor records", description = "Fetch a list of all sensors in the system.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "List of sensors retrieved successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = SensorDto.class)))
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SensorDto.class)))
     })
     @GetMapping
     public ResponseEntity<List<SensorDto>> getAllSensors() {
@@ -36,54 +38,87 @@ public class SensorController {
         return ResponseEntity.ok(sensors);
     }
 
-    @Operation(summary = "Retrieve a sensor by ID", description = "Fetch a single sensor by its ID.")
+    @Operation(summary = "Retrieve sensor by ID", description = "Fetch a single sensor by its ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Sensor retrieved successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = SensorDto.class))),
-            @ApiResponse(responseCode = "404", description = "Sensor not found")
+            @ApiResponse(responseCode = "200", description = "Sensor record retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SensorDto.class))),
+            @ApiResponse(responseCode = "404", description = "Sensor record not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @GetMapping("/{id}")
-    public ResponseEntity<SensorDto> getSensorById(@PathVariable Integer id) {
-        return sensorService.getSensorById(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> getSensorById(@PathVariable Integer id) {
+        try {
+            Optional<SensorDto> sensor = sensorService.getSensorById(id);
+            return ResponseEntity.ok(sensor);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
-    @Operation(summary = "Create a new sensor", description = "Add a new sensor to the system.")
+    @Operation(summary = "Create a new sensor record", description = "Add a new sensor to the system.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "201", description = "Sensor created successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = SensorDto.class))),
-            @ApiResponse(responseCode = "400", description = "Invalid input data")
+            @ApiResponse(responseCode = "201", description = "Sensor record created successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SensorDto.class))),
+            @ApiResponse(responseCode = "400", description = "Invalid input data",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @PostMapping
-    public ResponseEntity<SensorDto> createSensor(@RequestBody SensorDto sensorDto) {
-        SensorDto createdSensor = sensorService.createSensor(sensorDto);
-        return ResponseEntity.status(HttpStatus.CREATED).body(createdSensor);
+    public ResponseEntity<?> createSensor(@io.swagger.v3.oas.annotations.parameters.RequestBody(
+            description = "Details of the policy to create",
+            required = true,
+            content = @Content(mediaType = "application/json",
+                    examples = @ExampleObject(value = "{\n  \"sensorType\": \"string\",\n  \"currentState\": \"string\",\n  \"lastUpdate\": \"2024-11-27\",\n  \"carId\": 0\n}"),
+                    schema = @Schema(implementation = PolicyDto.class)))
+            @RequestBody SensorDto sensorDto) {
+        try {
+            Optional<SensorDto> createdSensor = Optional.ofNullable(sensorService.createSensor(sensorDto));
+            return ResponseEntity.status(HttpStatus.CREATED).body(createdSensor);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
-    @Operation(summary = "Update an existing sensor", description = "Modify the details of an existing sensor by its ID.")
+    @Operation(summary = "Update an existing sensor record", description = "Modify the details of an existing sensor by its ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "Sensor updated successfully",
-                    content = @Content(mediaType = "application/json", schema = @Schema(implementation = SensorDto.class))),
-            @ApiResponse(responseCode = "404", description = "Sensor not found")
+            @ApiResponse(responseCode = "200", description = "Sensor record updated successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SensorDto.class))),
+            @ApiResponse(responseCode = "404", description = "Sensor record not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @PutMapping("/{id}")
-    public ResponseEntity<SensorDto> updateSensor(@PathVariable Integer id, @RequestBody SensorDto sensorDto) {
-        return sensorService.updateSensor(id, sensorDto)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.notFound().build());
+    public ResponseEntity<?> updateSensor(@PathVariable Integer id, @RequestBody SensorDto sensorDto) {
+        try {
+            Optional<SensorDto> updatedSensor = sensorService.updateSensor(id, sensorDto);
+            return ResponseEntity.ok(updatedSensor);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
     }
 
-    @Operation(summary = "Delete a sensor", description = "Remove a sensor from the system by its ID.")
+    @Operation(summary = "Delete sensor record", description = "Remove a sensor from the system by its ID.")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "204", description = "Sensor deleted successfully"),
-            @ApiResponse(responseCode = "404", description = "Sensor not found")
+            @ApiResponse(responseCode = "204", description = "Sensor record deleted successfully"),
+            @ApiResponse(responseCode = "404", description = "Sensor record not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSensor(@PathVariable Integer id) {
-        if (sensorService.deleteSensor(id)) {
+    public ResponseEntity<?> deleteSensor(@PathVariable Integer id) {
+        try {
+            sensorService.deleteSensor(id);
             return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
         }
-        return ResponseEntity.notFound().build();
     }
 }

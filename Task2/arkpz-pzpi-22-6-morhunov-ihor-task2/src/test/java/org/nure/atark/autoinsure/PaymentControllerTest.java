@@ -13,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
+import java.time.OffsetDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -35,7 +36,7 @@ class PaymentControllerTest {
     void setUp() {
         paymentDto = new PaymentDto();
         paymentDto.setId(1);
-        paymentDto.setPaymentDate(LocalDate.of(2024, 11, 25));
+       // paymentDto.setPaymentDate(OffsetDateTime.now());
         paymentDto.setPaymentMethod("Credit Card");
         paymentDto.setPolicyId(1001);
     }
@@ -55,7 +56,7 @@ class PaymentControllerTest {
     void testGetPaymentById_Found() {
         when(paymentService.getPaymentById(1)).thenReturn(Optional.of(paymentDto));
 
-        ResponseEntity<PaymentDto> response = paymentController.getPaymentById(1);
+        ResponseEntity<PaymentDto> response = (ResponseEntity<PaymentDto>) paymentController.getPaymentById(1);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -66,7 +67,7 @@ class PaymentControllerTest {
     void testGetPaymentById_NotFound() {
         when(paymentService.getPaymentById(1)).thenReturn(Optional.empty());
 
-        ResponseEntity<PaymentDto> response = paymentController.getPaymentById(1);
+        ResponseEntity<PaymentDto> response = (ResponseEntity<PaymentDto>) paymentController.getPaymentById(1);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -75,7 +76,7 @@ class PaymentControllerTest {
     void testCreatePayment() {
         when(paymentService.createPayment(paymentDto)).thenReturn(paymentDto);
 
-        ResponseEntity<PaymentDto> response = paymentController.createPayment(paymentDto);
+        ResponseEntity<PaymentDto> response = (ResponseEntity<PaymentDto>) paymentController.createPayment(paymentDto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
