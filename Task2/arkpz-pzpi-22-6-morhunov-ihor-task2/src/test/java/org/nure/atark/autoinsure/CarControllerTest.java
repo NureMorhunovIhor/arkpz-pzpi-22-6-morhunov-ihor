@@ -36,8 +36,8 @@ class CarControllerTest {
 
     @Test
     void testGetAllCars() throws Exception {
-        var car1 = new CarDto(1, "AB123CD", "Toyota", "Camry", 2020, 1);
-        var car2 = new CarDto(2, "XY987ZY", "Honda", "Civic", 2019, 2);
+        var car1 = new CarDto(1, "AB123CD", "Toyota", "Camry", 2020, 1,1);
+        var car2 = new CarDto(2, "XY987ZY", "Honda", "Civic", 2019, 2, 1);
 
         when(carService.getAllCars()).thenReturn(Arrays.asList(car1, car2));
 
@@ -50,7 +50,7 @@ class CarControllerTest {
 
     @Test
     void testGetCarById() throws Exception {
-        var car = new CarDto(1, "AB123CD", "Toyota", "Camry", 2020, 1);
+        var car = new CarDto(1, "AB123CD", "Toyota", "Camry", 2020, 1, 1);
 
         when(carService.getCarById(1)).thenReturn(Optional.of(car));
 
@@ -69,7 +69,7 @@ class CarControllerTest {
         car.setModel("Camry");
         car.setYear(2020);
 
-        var carDto = new CarDto(1, "AB123CD", "Toyota", "Camry", 2020, 1);
+        var carDto = new CarDto(1, "AB123CD", "Toyota", "Camry", 2020, 1,1);
 
         when(carService.saveCar(any(CarDto.class))).thenReturn(Optional.of(carDto));
 

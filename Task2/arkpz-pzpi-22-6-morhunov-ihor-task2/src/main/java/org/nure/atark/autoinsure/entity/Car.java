@@ -39,6 +39,10 @@ public class Car {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "car_type_id", nullable = false)
+    private CarType carType;
+
     public Integer getId() {
         return id;
     }
@@ -87,4 +91,10 @@ public class Car {
         this.user = user;
     }
 
+    public CarType getCarType() {
+        return carType;
+    }
+    public void setCarType(CarType carType) {
+        this.carType = carType;
+    }
 }

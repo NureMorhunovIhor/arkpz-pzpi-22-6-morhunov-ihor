@@ -39,6 +39,7 @@ public class CarController {
         return ResponseEntity.ok(cars);
     }
 
+
     @Operation(summary = "Retrieve a car by ID", description = "Fetch a single car by its ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "Car retrieved successfully",
@@ -74,7 +75,7 @@ public class CarController {
                     description = "Details of the car to create",
                     required = true,
                     content = @Content(mediaType = "application/json",
-                            examples = @ExampleObject(value = "{\n  \"licensePlate\": \"string\",\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"userId\": 0\n}"),
+                            examples = @ExampleObject(value = "{\n  \"licensePlate\": \"string\",\n  \"brand\": \"string\",\n  \"model\": \"string\",\n  \"year\": 0,\n  \"userId\": 0,\n \"carTypeId\": 0\n}"),
                             schema = @Schema(implementation = CarDto.class)))
             @RequestBody CarDto carDto) {
         try {

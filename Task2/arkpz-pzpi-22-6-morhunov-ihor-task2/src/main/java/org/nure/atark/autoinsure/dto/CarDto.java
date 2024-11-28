@@ -1,5 +1,7 @@
 package org.nure.atark.autoinsure.dto;
 
+import org.nure.atark.autoinsure.entity.CarType;
+
 public class CarDto {
 
     private Integer id;
@@ -8,15 +10,18 @@ public class CarDto {
     private String model;
     private Integer year;
     private Integer userId;
+    private Integer carTypeId;
 
-    public CarDto(Integer id, String licensePlate, String brand, String model, Integer year, Integer userId) {
+    public CarDto(Integer id, String licensePlate, String brand, String model, Integer year, Integer userId, Integer carTypeId) {
         this.id = id;
         this.licensePlate = licensePlate;
         this.brand = brand;
         this.model = model;
         this.year = year;
         this.userId = userId;
+        this.carTypeId = carTypeId;
     }
+
     public CarDto() {
     }
 
@@ -66,5 +71,13 @@ public class CarDto {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public Integer getCarTypeId() {
+        return carTypeId;
+    }
+
+    public void setCarTypeId(Integer carType) {
+        this.carTypeId = carType;
     }
 }

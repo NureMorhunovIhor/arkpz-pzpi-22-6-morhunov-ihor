@@ -6,6 +6,7 @@ import org.nure.atark.autoinsure.dto.CarDto;
 import org.nure.atark.autoinsure.entity.Car;
 import org.nure.atark.autoinsure.entity.User;
 import org.nure.atark.autoinsure.repository.CarRepository;
+import org.nure.atark.autoinsure.repository.CarTypeRepository;
 import org.nure.atark.autoinsure.repository.UserRepository;
 import org.nure.atark.autoinsure.service.CarService;
 
@@ -21,12 +22,14 @@ class CarServiceTest {
     private CarRepository carRepository;
     private CarService carService;
     private UserRepository userRepository;
+    private CarTypeRepository carTypeRepository;
 
     @BeforeEach
     void setUp() {
         carRepository = mock(CarRepository.class);
         userRepository = mock(UserRepository.class);
-        carService = new CarService(carRepository, userRepository);
+        carTypeRepository = mock(CarTypeRepository.class);
+        carService = new CarService(carRepository, userRepository, carTypeRepository);
     }
 
 
@@ -132,4 +135,6 @@ class CarServiceTest {
         verify(carRepository, times(1)).existsById(1);
         verify(carRepository, times(1)).deleteById(1);
     }
+
+
 }
