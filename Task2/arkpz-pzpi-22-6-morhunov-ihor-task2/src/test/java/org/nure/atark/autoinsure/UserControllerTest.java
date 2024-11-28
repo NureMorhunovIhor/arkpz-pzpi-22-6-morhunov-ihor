@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(UserController.class)
-@Import(UserControllerTest.TestConfig.class) // Импортируем тестовую конфигурацию
+@Import(UserControllerTest.TestConfig.class)
 class UserControllerTest {
 
     @Autowired
@@ -30,7 +30,7 @@ class UserControllerTest {
     private ObjectMapper objectMapper;
 
     @Autowired
-    private UserService userService; // Замокированный бин
+    private UserService userService;
 
     @Test
     void testGetAllUsers() throws Exception {
@@ -76,7 +76,7 @@ class UserControllerTest {
         mockMvc.perform(post("/api/users")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(user)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.firstName").value("John"));
 
         verify(userService, times(1)).createUser(any(User.class));
@@ -92,7 +92,6 @@ class UserControllerTest {
         verify(userService, times(1)).deleteUser(1);
     }
 
-    // Тестовая конфигурация для моков
     static class TestConfig {
         @Bean
         public UserService userService() {

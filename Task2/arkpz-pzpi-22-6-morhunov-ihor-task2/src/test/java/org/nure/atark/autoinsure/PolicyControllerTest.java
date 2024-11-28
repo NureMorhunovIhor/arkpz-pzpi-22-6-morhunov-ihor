@@ -19,7 +19,7 @@ import java.util.Optional;
 @ExtendWith(MockitoExtension.class)
 public class PolicyControllerTest {
 
-    /* @Mock
+     @Mock
     private PolicyService policyService;
 
     @InjectMocks
@@ -41,7 +41,7 @@ public class PolicyControllerTest {
         PolicyDto policyDto = new PolicyDto();
         when(policyService.getPolicyById(1)).thenReturn(Optional.of(policyDto));
 
-        ResponseEntity<PolicyDto> response = policyController.getPolicyById(1);
+        ResponseEntity<?> response = policyController.getPolicyById(1);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -51,7 +51,7 @@ public class PolicyControllerTest {
     void testGetPolicyByIdNotFound() {
         when(policyService.getPolicyById(1)).thenReturn(Optional.empty());
 
-        ResponseEntity<PolicyDto> response = policyController.getPolicyById(1);
+        ResponseEntity<?> response = policyController.getPolicyById(1);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -61,7 +61,7 @@ public class PolicyControllerTest {
         PolicyDto policyDto = new PolicyDto();
         when(policyService.createPolicy(policyDto)).thenReturn(policyDto);
 
-        ResponseEntity<PolicyDto> response = policyController.createPolicy(policyDto);
+        ResponseEntity<?> response = policyController.createPolicy(policyDto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -72,7 +72,7 @@ public class PolicyControllerTest {
         PolicyDto policyDto = new PolicyDto();
         when(policyService.updatePolicy(1, policyDto)).thenReturn(Optional.of(policyDto));
 
-        ResponseEntity<PolicyDto> response = policyController.updatePolicy(1, policyDto);
+        ResponseEntity<?> response = policyController.updatePolicy(1, policyDto);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
@@ -83,7 +83,7 @@ public class PolicyControllerTest {
         PolicyDto policyDto = new PolicyDto();
         when(policyService.updatePolicy(1, policyDto)).thenReturn(Optional.empty());
 
-        ResponseEntity<PolicyDto> response = policyController.updatePolicy(1, policyDto);
+        ResponseEntity<?> response = policyController.updatePolicy(1, policyDto);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
@@ -92,7 +92,7 @@ public class PolicyControllerTest {
     void testDeletePolicy() {
         when(policyService.deletePolicy(1)).thenReturn(true);
 
-        ResponseEntity<Void> response = policyController.deletePolicy(1);
+        ResponseEntity<?> response = policyController.deletePolicy(1);
 
         assertEquals(HttpStatus.NO_CONTENT, response.getStatusCode());
     }
@@ -101,10 +101,10 @@ public class PolicyControllerTest {
     void testDeletePolicyNotFound() {
         when(policyService.deletePolicy(1)).thenReturn(false);
 
-        ResponseEntity<Void> response = policyController.deletePolicy(1);
+        ResponseEntity<?> response = policyController.deletePolicy(1);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
     }
 
-     */
+
 }

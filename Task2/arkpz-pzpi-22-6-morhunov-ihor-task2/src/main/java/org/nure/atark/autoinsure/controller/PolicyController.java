@@ -52,12 +52,18 @@ public class PolicyController {
     public ResponseEntity<?> getPolicyById(@PathVariable Integer id) {
         try {
             Optional<PolicyDto> policy = policyService.getPolicyById(id);
-            return ResponseEntity.ok(policy);
+            if (policy.isPresent()) {
+                return ResponseEntity.ok(policy.get());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Policy not found\"}");
+            }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
+
 
     @Operation(summary = "Create a new policy", description = "Add a new policy to the system.")
     @ApiResponses(value = {
@@ -100,9 +106,14 @@ public class PolicyController {
                                           @RequestBody PolicyDto policyDto) {
         try {
             Optional<PolicyDto> updatedPolicy = policyService.updatePolicy(id, policyDto);
-            return ResponseEntity.ok(updatedPolicy);
+            if (updatedPolicy.isPresent()) {
+                return ResponseEntity.ok(updatedPolicy.get());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Policy not found\"}");
+            }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
@@ -117,11 +128,17 @@ public class PolicyController {
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deletePolicy(@PathVariable Integer id) {
         try {
-            policyService.deletePolicy(id);
-            return ResponseEntity.noContent().build();
+            boolean deleted = policyService.deletePolicy(id);
+            if (deleted) {
+                return ResponseEntity.noContent().build();
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Policy not found\"}");
+            }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
+
 }

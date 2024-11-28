@@ -36,7 +36,7 @@ class PaymentControllerTest {
     void setUp() {
         paymentDto = new PaymentDto();
         paymentDto.setId(1);
-       // paymentDto.setPaymentDate(OffsetDateTime.now());
+       paymentDto.setPaymentDate(OffsetDateTime.now().toLocalDate());
         paymentDto.setPaymentMethod("Credit Card");
         paymentDto.setPolicyId(1001);
     }
@@ -56,30 +56,34 @@ class PaymentControllerTest {
     void testGetPaymentById_Found() {
         when(paymentService.getPaymentById(1)).thenReturn(Optional.of(paymentDto));
 
-        ResponseEntity<PaymentDto> response = (ResponseEntity<PaymentDto>) paymentController.getPaymentById(1);
+        ResponseEntity<?> response = paymentController.getPaymentById(1);
 
         assertEquals(HttpStatus.OK, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(paymentDto.getId(), response.getBody().getId());
+        assertEquals(paymentDto.getId(), ((PaymentDto) response.getBody()).getId());
     }
+
 
     @Test
     void testGetPaymentById_NotFound() {
         when(paymentService.getPaymentById(1)).thenReturn(Optional.empty());
 
-        ResponseEntity<PaymentDto> response = (ResponseEntity<PaymentDto>) paymentController.getPaymentById(1);
+        ResponseEntity<?> response = paymentController.getPaymentById(1);
 
         assertEquals(HttpStatus.NOT_FOUND, response.getStatusCode());
+        assertEquals("{\"error\":\"Payment not found\"}", response.getBody());
     }
+
 
     @Test
     void testCreatePayment() {
         when(paymentService.createPayment(paymentDto)).thenReturn(paymentDto);
 
-        ResponseEntity<PaymentDto> response = (ResponseEntity<PaymentDto>) paymentController.createPayment(paymentDto);
+        ResponseEntity<?> response = paymentController.createPayment(paymentDto);
 
         assertEquals(HttpStatus.CREATED, response.getStatusCode());
         assertNotNull(response.getBody());
-        assertEquals(paymentDto.getId(), response.getBody().getId());
+        assertEquals(paymentDto.getId(), ((PaymentDto) response.getBody()).getId());
     }
+
 }

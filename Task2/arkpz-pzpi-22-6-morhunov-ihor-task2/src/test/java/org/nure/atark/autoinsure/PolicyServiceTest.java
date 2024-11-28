@@ -28,14 +28,13 @@ public class PolicyServiceTest {
     @InjectMocks
     private PolicyService policyService;
 
-    // Тест на создание полиса
     @Test
     void testCreatePolicy() {
         PolicyDto policyDto = new PolicyDto();
-        policyDto.setStartDate(LocalDate.parse("2024-11-01"));  // Используем LocalDate
-        policyDto.setEndDate(LocalDate.parse("2025-11-01"));    // Используем LocalDate
+        policyDto.setStartDate(LocalDate.parse("2024-11-01"));
+        policyDto.setEndDate(LocalDate.parse("2025-11-01"));
         policyDto.setStatus("ACTIVE");
-        policyDto.setPrice(BigDecimal.valueOf(500.0));           // Используем BigDecimal
+        policyDto.setPrice(BigDecimal.valueOf(500.0));
         policyDto.setCarId(1);
 
         Policy policy = new Policy();
@@ -58,7 +57,6 @@ public class PolicyServiceTest {
         verify(policyRepository, times(1)).save(any(Policy.class));
     }
 
-    // Тест на обновление полиса
     @Test
     void testUpdatePolicy() {
         PolicyDto policyDto = new PolicyDto();
@@ -112,7 +110,6 @@ public class PolicyServiceTest {
         assertFalse(result);
     }
 
-    // Тест на получение всех полисов
     @Test
     void testGetAllPolicies() {
         List<Policy> policies = List.of(new Policy(), new Policy());
@@ -124,7 +121,6 @@ public class PolicyServiceTest {
         assertEquals(policies.size(), result.size());
     }
 
-    // Тест на получение полиса по ID
     @Test
     void testGetPolicyById() {
         Policy policy = new Policy();

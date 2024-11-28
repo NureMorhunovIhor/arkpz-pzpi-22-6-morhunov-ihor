@@ -25,7 +25,6 @@ public class SensorService {
         this.carRepository = carRepository;
     }
 
-    // Получение всех сенсоров
     public List<SensorDto> getAllSensors() {
         List<Sensor> sensors = sensorRepository.findAll();
         return sensors.stream()
@@ -33,12 +32,10 @@ public class SensorService {
                 .collect(Collectors.toList());
     }
 
-    // Получение сенсора по ID
     public Optional<SensorDto> getSensorById(Integer id) {
         return sensorRepository.findById(id).map(this::convertToDto);
     }
 
-    // Создание нового сенсора
     public SensorDto createSensor(SensorDto sensorDto) {
         Sensor sensor = new Sensor();
         sensor.setSensorType(sensorDto.getSensorType());
@@ -58,7 +55,6 @@ public class SensorService {
         return convertToDto(savedSensor);
     }
 
-    // Обновление сенсора
     public Optional<SensorDto> updateSensor(Integer id, SensorDto sensorDto) {
         if (sensorRepository.existsById(id)) {
             Sensor sensor = sensorRepository.findById(id)
@@ -68,19 +64,17 @@ public class SensorService {
             sensor.setCurrentState(sensorDto.getCurrentState());
             sensor.setLastUpdate(sensorDto.getLastUpdate());
 
-            // Обновление привязки к автомобилю
-            Car car = new Car();
-            car.setId(sensorDto.getCarId());
+            Car car = carRepository.findById(sensorDto.getCarId())
+                    .orElseThrow(() -> new NoSuchElementException("Car not found"));
             sensor.setCar(car);
 
-            // Сохранение обновленного сенсора
             Sensor updatedSensor = sensorRepository.save(sensor);
             return Optional.of(convertToDto(updatedSensor));
         }
         return Optional.empty();
     }
 
-    // Удаление сенсора
+
     public boolean deleteSensor(Integer id) {
         if (sensorRepository.existsById(id)) {
             sensorRepository.deleteById(id);
@@ -89,7 +83,6 @@ public class SensorService {
         return false;
     }
 
-    // Конвертация Sensor в SensorDto
     private SensorDto convertToDto(Sensor sensor) {
         SensorDto sensorDto = new SensorDto();
         sensorDto.setId(sensor.getId());

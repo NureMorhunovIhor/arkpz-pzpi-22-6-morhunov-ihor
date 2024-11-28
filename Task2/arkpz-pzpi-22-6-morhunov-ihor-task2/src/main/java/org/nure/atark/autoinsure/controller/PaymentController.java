@@ -52,12 +52,18 @@ public class PaymentController {
     public ResponseEntity<?> getPaymentById(@PathVariable Integer id) {
         try {
             Optional<PaymentDto> payment = paymentService.getPaymentById(id);
-            return ResponseEntity.ok(payment);
+            if (payment.isPresent()) {
+                return ResponseEntity.ok(payment.get());
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Payment not found\"}");
+            }
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
+
 
     @Operation(summary = "Create a new payment record", description = "Add a new payment record to the system.")
     @ApiResponses(value = {
@@ -78,7 +84,7 @@ public class PaymentController {
                             schema = @Schema(implementation = PaymentDto.class)))
             @RequestBody PaymentDto paymentDto) {
         try {
-            Optional<PaymentDto> createdPayment = Optional.ofNullable(paymentService.createPayment(paymentDto));
+            PaymentDto createdPayment = paymentService.createPayment(paymentDto);
             return ResponseEntity.status(HttpStatus.CREATED).body(createdPayment);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST)
