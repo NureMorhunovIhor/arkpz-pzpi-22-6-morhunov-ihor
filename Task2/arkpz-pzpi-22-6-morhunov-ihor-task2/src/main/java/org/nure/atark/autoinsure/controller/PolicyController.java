@@ -118,6 +118,26 @@ public class PolicyController {
         }
     }
 
+    @Operation(summary = "Retrieve policies by user ID", description = "Fetch all policies associated with a specific user via cars.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of user's policies retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PolicyDto.class))),
+            @ApiResponse(responseCode = "404", description = "No policies found for the user",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"No policies found for this user\"}")))
+    })
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getPoliciesByUserId(@PathVariable Integer userId) {
+        List<PolicyDto> policies = policyService.getPoliciesByUserId(userId);
+        if (policies.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"No policies found for this user\"}");
+        }
+        return ResponseEntity.ok(policies);
+    }
+
+
     @Operation(summary = "Delete a policy", description = "Remove a policy from the system by its ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Policy deleted successfully"),

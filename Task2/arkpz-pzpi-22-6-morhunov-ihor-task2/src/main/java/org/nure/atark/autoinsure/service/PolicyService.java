@@ -33,6 +33,13 @@ public class PolicyService {
         return policyRepository.findById(id).map(this::convertToDto);
     }
 
+    public List<PolicyDto> getPoliciesByUserId(Integer userId) {
+        List<Policy> policies = policyRepository.findByUserId(userId);
+        return policies.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     public PolicyDto createPolicy(PolicyDto policyDto) {
         Policy policy = new Policy();
         policy.setStartDate(policyDto.getStartDate());

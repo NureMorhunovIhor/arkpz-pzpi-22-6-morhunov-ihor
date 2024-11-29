@@ -73,6 +73,12 @@ public class SensorService {
         }
         return Optional.empty();
     }
+    public List<SensorDto> getSensorsByCarId(Integer carId) {
+        List<Sensor> sensors = sensorRepository.findByCarId(carId);
+        return sensors.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 
 
     public boolean deleteSensor(Integer id) {

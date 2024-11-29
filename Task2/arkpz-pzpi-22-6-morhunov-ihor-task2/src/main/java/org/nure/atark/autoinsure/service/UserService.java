@@ -27,7 +27,25 @@ public class UserService {
     public User createUser(User user) {
         return userRepository.save(user);
     }
+    public User registerUser(User user) {
+        if (userRepository.findByEmail(user.getEmail()).isPresent()) {
+            throw new RuntimeException("User with email " + user.getEmail() + " already exists.");
+        }
+        user.setPassword(user.getPassword());
+        return userRepository.save(user);
+    }
 
+    public User loginUser(String email, String password) {
+        User user = userRepository.findByEmail(email)
+                .orElseThrow(() -> new RuntimeException("Invalid email or password."));
+
+        if (!password.equals(user.getPassword())) {
+            throw new RuntimeException("Invalid email or password.");
+        }
+
+
+        return user;
+    }
     public User updateUser(Integer id, User userDetails) {
         User user = getUserById(id);
         user.setFirstName(userDetails.getFirstName());

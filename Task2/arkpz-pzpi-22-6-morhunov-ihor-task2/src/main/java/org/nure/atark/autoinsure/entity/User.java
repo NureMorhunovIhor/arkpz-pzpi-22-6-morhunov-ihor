@@ -13,6 +13,10 @@ public class User {
     @Column(name = "user_id", nullable = false)
     private Integer id;
 
+    @Size(max = 15)
+    @Column(name = "phone", length = 15)
+    private String phone;
+
     @Size(max = 50)
     @NotNull
     @Column(name = "first_name", nullable = false, length = 50)
@@ -28,9 +32,7 @@ public class User {
     @Column(name = "email", nullable = false, length = 100)
     private String email;
 
-    @Size(max = 15)
-    @Column(name = "phone", length = 15)
-    private String phone;
+
 
     @Size(max = 20)
     @NotNull
@@ -38,12 +40,27 @@ public class User {
     @Column(name = "role", nullable = false, length = 20)
     private String role;
 
+    @Size(max = 50)
+    @NotNull
+    @ColumnDefault("'default-password'")
+    @Column(name = "password", nullable = false, length = 50)
+    private String password;
+
     public Integer getId() {
         return id;
     }
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getFirstName() {
@@ -70,13 +87,7 @@ public class User {
         this.email = email;
     }
 
-    public String getPhone() {
-        return phone;
-    }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
 
     public String getRole() {
         return role;
@@ -86,4 +97,11 @@ public class User {
         this.role = role;
     }
 
+    public  String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 }

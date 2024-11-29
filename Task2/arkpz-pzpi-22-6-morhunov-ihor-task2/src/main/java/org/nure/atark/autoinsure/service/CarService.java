@@ -5,7 +5,7 @@ import org.nure.atark.autoinsure.entity.Car;
 import org.nure.atark.autoinsure.entity.CarType;
 import org.nure.atark.autoinsure.entity.User;
 import org.nure.atark.autoinsure.repository.CarRepository;
-import org.nure.atark.autoinsure.repository.CarTypeRepository;  // Добавляем репозиторий для CarType
+import org.nure.atark.autoinsure.repository.CarTypeRepository;
 import org.nure.atark.autoinsure.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,13 +18,13 @@ public class CarService {
 
     private final CarRepository carRepository;
     private final UserRepository userRepository;
-    private final CarTypeRepository carTypeRepository;  // Репозиторий для работы с CarType
+    private final CarTypeRepository carTypeRepository;
 
     @Autowired
     public CarService(CarRepository carRepository, UserRepository userRepository, CarTypeRepository carTypeRepository) {
         this.carRepository = carRepository;
         this.userRepository = userRepository;
-        this.carTypeRepository = carTypeRepository;  // Инициализируем репозиторий
+        this.carTypeRepository = carTypeRepository;
     }
 
     public List<CarDto> getAllCars() {
@@ -49,7 +49,6 @@ public class CarService {
         car.setModel(carDto.getModel());
         car.setYear(carDto.getYear());
 
-        // Устанавливаем тип машины через ID
         if (carDto.getCarTypeId() != null) {
             Optional<CarType> carType = carTypeRepository.findById(carDto.getCarTypeId());
             carType.ifPresent(car::setCarType);
@@ -84,7 +83,6 @@ public class CarService {
                         car.setUser(null);
                     }
 
-                    // Обновляем тип машины по ID
                     if (carDto.getCarTypeId() != null) {
                         Optional<CarType> carType = carTypeRepository.findById(carDto.getCarTypeId());
                         carType.ifPresent(car::setCarType);
@@ -93,6 +91,16 @@ public class CarService {
                     Car updatedCar = carRepository.save(car);
                     return convertToDto(updatedCar);
                 });
+    }
+    public List<CarDto> getCarsByUserId(Integer userId) {
+        return carRepository.findByUserId(userId).stream()
+                .map(this::convertToDto)
+                .toList();
+    }
+    public List<CarDto> searchCarsByName(String query) {
+        return carRepository.searchCarsIgnoreCase(query).stream()
+                .map(this::convertToDto)
+                .toList();
     }
 
     private CarDto convertToDto(Car car) {
@@ -103,7 +111,7 @@ public class CarService {
                 car.getModel(),
                 car.getYear(),
                 car.getUser() != null ? car.getUser().getId() : null,
-                car.getCarType() != null ? car.getCarType().getId() : null  // Возвращаем ID типа машины
+                car.getCarType() != null ? car.getCarType().getId() : null
         );
     }
 }

@@ -33,6 +33,20 @@ public class IncidentService {
         return incidentRepository.findById(id).map(this::convertToDto);
     }
 
+    public List<IncidentDto> getIncidentsByUserId(Integer userId) {
+        List<Incident> incidents = incidentRepository.findIncidentsByUserId(userId);
+        return incidents.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<IncidentDto> getIncidentsByCarId(Integer carId) {
+        List<Incident> incidents = incidentRepository.findByCarId(carId);
+        return incidents.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     public IncidentDto createIncident(IncidentDto incidentDto) {
         Incident incident = new Incident();
         incident.setIncidentDate(incidentDto.getIncidentDate());

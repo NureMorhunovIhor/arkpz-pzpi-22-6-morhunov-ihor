@@ -57,6 +57,29 @@ public class SensorController {
                     .body("{\"error\":\"" + e.getMessage() + "\"}");
         }
     }
+    @Operation(summary = "Retrieve all sensors for a specific car", description = "Fetch a list of all sensors associated with a specific car by its ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of sensors retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = SensorDto.class))),
+            @ApiResponse(responseCode = "404", description = "Car not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
+    })
+    @GetMapping("/car/{carId}")
+    public ResponseEntity<?> getSensorsByCarId(@PathVariable Integer carId) {
+        try {
+            List<SensorDto> sensors = sensorService.getSensorsByCarId(carId);
+            if (sensors.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"No sensors found for car with ID: " + carId + "\"}");
+            }
+            return ResponseEntity.ok(sensors);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
+    }
 
     @Operation(summary = "Create a new sensor record", description = "Add a new sensor to the system.")
     @ApiResponses(value = {

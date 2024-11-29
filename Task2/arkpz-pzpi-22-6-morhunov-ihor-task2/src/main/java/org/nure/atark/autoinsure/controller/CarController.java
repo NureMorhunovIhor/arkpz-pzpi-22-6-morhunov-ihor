@@ -108,6 +108,43 @@ public class CarController {
         }
     }
 
+    @Operation(summary = "Retrieve cars by user ID", description = "Fetch a list of cars associated with a specific user ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of cars retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CarDto.class))),
+            @ApiResponse(responseCode = "404", description = "User not found or no cars for the user",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
+    })
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getCarsByUserId(@PathVariable Integer userId) {
+        List<CarDto> cars = carService.getCarsByUserId(userId);
+        if (cars.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"No cars found for user ID " + userId + "\"}");
+        }
+        return ResponseEntity.ok(cars);
+    }
+    @Operation(summary = "Search cars by name", description = "Search for cars by brand or model name.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Cars found successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = CarDto.class))),
+            @ApiResponse(responseCode = "404", description = "No cars found matching the query",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
+    })
+    @GetMapping("/search")
+    public ResponseEntity<?> searchCarsByName(@RequestParam String query) {
+        List<CarDto> cars = carService.searchCarsByName(query);
+        if (cars.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"No cars found matching the query: " + query + "\"}");
+        }
+        return ResponseEntity.ok(cars);
+    }
+
     @Operation(summary = "Delete a car", description = "Remove a car from the system by its ID.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "204", description = "Car deleted successfully"),

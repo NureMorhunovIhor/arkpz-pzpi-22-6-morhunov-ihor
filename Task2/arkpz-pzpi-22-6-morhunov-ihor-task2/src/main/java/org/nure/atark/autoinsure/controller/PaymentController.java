@@ -92,4 +92,23 @@ public class PaymentController {
         }
     }
 
+    @Operation(summary = "Retrieve payments by user ID", description = "Fetch all payments associated with a specific user via policies and cars.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of user's payments retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = PaymentDto.class))),
+            @ApiResponse(responseCode = "404", description = "No payments found for the user",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
+    })
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getPaymentsByUserId(@PathVariable Integer userId) {
+        List<PaymentDto> payments = paymentService.getPaymentsByUserId(userId);
+        if (payments.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"No payments found for this user\"}");
+        }
+        return ResponseEntity.ok(payments);
+    }
+
 }

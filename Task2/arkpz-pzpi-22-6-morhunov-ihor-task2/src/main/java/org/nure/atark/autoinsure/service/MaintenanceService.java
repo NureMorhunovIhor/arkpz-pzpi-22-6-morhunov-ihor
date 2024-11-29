@@ -32,6 +32,13 @@ public class MaintenanceService {
         return maintenanceRepository.findById(id).map(this::convertToDto);
     }
 
+    public List<MaintenanceDto> getMaintenanceByCarId(Integer carId) {
+        List<Maintenance> maintenances = maintenanceRepository.findByCarId(carId);
+        return maintenances.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
     public MaintenanceDto createMaintenance(MaintenanceDto maintenanceDto) {
         Maintenance maintenance = new Maintenance();
         maintenance.setMaintenanceDate(maintenanceDto.getMaintenanceDate());

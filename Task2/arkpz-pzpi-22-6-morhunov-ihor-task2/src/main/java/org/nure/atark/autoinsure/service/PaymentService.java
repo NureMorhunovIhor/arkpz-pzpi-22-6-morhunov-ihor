@@ -45,6 +45,12 @@ public class PaymentService {
         return convertToDto(savedPayment);
     }
 
+    public List<PaymentDto> getPaymentsByUserId(Integer userId) {
+        List<Payment> payments = paymentRepository.findPaymentsByUserId(userId);
+        return payments.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
 
     private PaymentDto convertToDto(Payment payment) {
         PaymentDto paymentDto = new PaymentDto();

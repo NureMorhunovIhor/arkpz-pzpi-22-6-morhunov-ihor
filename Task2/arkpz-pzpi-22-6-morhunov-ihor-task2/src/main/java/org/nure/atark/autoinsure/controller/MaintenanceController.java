@@ -59,6 +59,31 @@ public class MaintenanceController {
         }
     }
 
+    @Operation(summary = "Retrieve all maintenance records for a specific car", description = "Fetch all maintenance records associated with a specific car by its ID.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "List of maintenance records retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = MaintenanceDto.class))),
+            @ApiResponse(responseCode = "404", description = "Car not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
+    })
+    @GetMapping("/car/{carId}")
+    public ResponseEntity<?> getMaintenanceByCarId(@PathVariable Integer carId) {
+        try {
+            List<MaintenanceDto> maintenances = maintenanceService.getMaintenanceByCarId(carId);
+            if (maintenances.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"No maintenance records found for this car\"}");
+            }
+            return ResponseEntity.ok(maintenances);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
+    }
+
+
     @Operation(summary = "Create a new maintenance record", description = "Add a new maintenance record to the system.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Maintenance record created successfully",

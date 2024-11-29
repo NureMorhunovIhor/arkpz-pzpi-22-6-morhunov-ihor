@@ -57,6 +57,52 @@ public class IncidentController {
         }
     }
 
+    @Operation(summary = "Retrieve incidents for a user", description = "Fetch incidents related to a specific user.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Incidents retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = IncidentDto.class))),
+            @ApiResponse(responseCode = "404", description = "User not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
+    })
+    @GetMapping("/user/{userId}")
+    public ResponseEntity<?> getIncidentsByUserId(@PathVariable Integer userId) {
+        try {
+            List<IncidentDto> incidents = incidentService.getIncidentsByUserId(userId);
+            if(incidents.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"User has no incidents\"}");
+            }
+            return ResponseEntity.ok(incidents);
+        }
+        catch (Exception e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
+    }
+
+    @Operation(summary = "Retrieve incidents for a car", description = "Fetch incidents related to a specific car.")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Incidents retrieved successfully",
+                    content = @Content(mediaType = "application/json",
+                            schema = @Schema(implementation = IncidentDto.class))),
+            @ApiResponse(responseCode = "404", description = "Car not found",
+                    content = @Content(mediaType = "application/json",
+                            examples = @ExampleObject(value = "{\"error\":\"string\"}")))
+    })
+    @GetMapping("/car/{carId}")
+    public ResponseEntity<?> getIncidentsByCarId(@PathVariable Integer carId) {
+        try {
+            List<IncidentDto> incidents = incidentService.getIncidentsByCarId(carId);
+            if (incidents.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body("{\"error\":\"Car has no incidents\"}");
+            }
+            return ResponseEntity.ok(incidents);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("{\"error\":\"" + e.getMessage() + "\"}");
+        }
+    }
     @Operation(summary = "Create a new incident", description = "Add a new incident to the system.")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "201", description = "Incident created successfully",
