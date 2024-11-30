@@ -38,12 +38,9 @@ public class UserService {
     public User loginUser(String email, String password) {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new RuntimeException("Invalid email or password."));
-
         if (!password.equals(user.getPassword())) {
             throw new RuntimeException("Invalid email or password.");
         }
-
-
         return user;
     }
     public User updateUser(Integer id, User userDetails) {
