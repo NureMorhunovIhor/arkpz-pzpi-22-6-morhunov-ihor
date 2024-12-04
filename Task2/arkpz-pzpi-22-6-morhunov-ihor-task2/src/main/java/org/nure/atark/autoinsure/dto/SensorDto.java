@@ -22,7 +22,6 @@ public class SensorDto {
         this.carId = carId;
     }
 
-    // Геттеры и сеттеры
     public Integer getId() {
         return id;
     }
