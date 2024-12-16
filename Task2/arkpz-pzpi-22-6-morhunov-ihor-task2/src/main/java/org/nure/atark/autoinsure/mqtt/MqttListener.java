@@ -30,8 +30,8 @@ public class MqttListener {
             MqttConnectOptions options = new MqttConnectOptions();
             options.setAutomaticReconnect(true);
             options.setCleanSession(true);
-            options.setConnectionTimeout(30);  // Увеличьте тайм-аут
-            options.setKeepAliveInterval(60);  // Увеличьте интервал keep-alive
+            options.setConnectionTimeout(30);
+            options.setKeepAliveInterval(60);
 
             System.out.println("Попытка подключения к MQTT брокеру...");
             client.connect(options);
