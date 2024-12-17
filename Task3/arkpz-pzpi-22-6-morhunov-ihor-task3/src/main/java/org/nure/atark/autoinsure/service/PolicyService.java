@@ -6,6 +6,7 @@ import jakarta.mail.internet.MimeMessage;
 import org.mvel2.MVEL;
 import org.nure.atark.autoinsure.dto.MaintenanceDto;
 import org.nure.atark.autoinsure.dto.PolicyDto;
+import org.nure.atark.autoinsure.dto.TechnicalScoreDto;
 import org.nure.atark.autoinsure.entity.*;
 import org.nure.atark.autoinsure.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,9 +29,12 @@ public class PolicyService {
     private final RuleRepository ruleRepository;
     private final UserRepository userRepository;
     private final JavaMailSender mailSender;
+    private final TechnicalScoreRepository technicalScoreRepository;
+    private final TechnicalScoreService technicalScoreService;
 
     @Autowired
-    public PolicyService(PolicyRepository policyRepository , IncidentRepository incidentRepository , MaintenanceRepository maintenanceRepository, CarRepository carRepository, RuleRepository ruleRepository, UserRepository userRepository, JavaMailSender mailSender) {
+    public PolicyService(PolicyRepository policyRepository , IncidentRepository incidentRepository , MaintenanceRepository maintenanceRepository,
+                         CarRepository carRepository, RuleRepository ruleRepository, UserRepository userRepository, TechnicalScoreService technicalScoreService, JavaMailSender mailSender, TechnicalScoreRepository technicalScoreRepository) {
         this.policyRepository = policyRepository;
         this.incidentRepository = incidentRepository;
         this.maintenanceRepository = maintenanceRepository;
@@ -38,6 +42,8 @@ public class PolicyService {
         this.ruleRepository = ruleRepository;
         this.userRepository = userRepository;
         this.mailSender = mailSender;
+        this.technicalScoreRepository = technicalScoreRepository;
+        this.technicalScoreService = technicalScoreService;
     }
 
     @PostConstruct
@@ -85,8 +91,6 @@ public class PolicyService {
         Policy savedPolicy = policyRepository.save(policy);
         return convertToDto(savedPolicy);
     }
-
-
 
     public Optional<PolicyDto> updatePolicy(Integer id, PolicyDto policyDto) {
         if (policyRepository.existsById(id)) {
@@ -158,6 +162,12 @@ public class PolicyService {
             return 5;
         }
 
+        Optional<TechnicalScoreDto> technicalScoreDtoOptional = technicalScoreService.getLatestTechnicalScore(carId);
+
+        double technicalCoefficient = technicalScoreDtoOptional
+                .map(TechnicalScoreDto::getValue)
+                .orElse(1.0);
+
         Maintenance lastMaintenance = maintenances.stream()
                 .max(Comparator.comparing(Maintenance::getMaintenanceDate))
                 .orElseThrow();
@@ -165,16 +175,26 @@ public class PolicyService {
         long daysSinceMaintenance = java.time.temporal.ChronoUnit.DAYS.between(
                 lastMaintenance.getMaintenanceDate(), LocalDate.now());
 
+        int baseScore;
+
         if (daysSinceMaintenance < 30) {
-            return 10;
+            baseScore = 10;
         } else if (daysSinceMaintenance < 90) {
-            return 7;
+            baseScore = 7;
         } else if (daysSinceMaintenance < 180) {
-            return 5;
+            baseScore = 5;
         } else {
-            return 3;
+            baseScore = 3;
         }
+
+        if (technicalCoefficient < 0) {
+            return baseScore;
+        }
+
+        int finalScore = (int) Math.round((baseScore * 0.5 + technicalCoefficient * 0.5) / 2);
+        return Math.min(finalScore, 10);
     }
+
 
 
     public boolean deletePolicy(Integer id) {
@@ -217,9 +237,8 @@ public class PolicyService {
         Optional<User> userOptional = userRepository.findById(policy.getCar().getUser().getId());
         if (userOptional.isPresent()) {
             User user = userOptional.get();
-            // Force Hibernate to initialize the user and its relationship with Car
             if (policy.getCar() != null) {
-                policy.getCar().getUser().getFirstName(); // This ensures the user is loaded
+                policy.getCar().getUser().getFirstName();
             }
 
             String subject = "Your Insurance Policy is About to Expire";
@@ -234,9 +253,9 @@ public class PolicyService {
                 helper.setSubject(subject);
                 helper.setText(body);
 
-                mailSender.send(message);  // Send the email
+                mailSender.send(message);
             } catch (MessagingException e) {
-                e.printStackTrace(); // Log errors
+                e.printStackTrace();
             }
         }
     }

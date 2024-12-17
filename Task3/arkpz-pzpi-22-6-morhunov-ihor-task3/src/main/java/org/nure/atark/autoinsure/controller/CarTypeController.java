@@ -11,6 +11,7 @@ import org.nure.atark.autoinsure.service.CarTypeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -66,6 +67,7 @@ public class CarTypeController {
                     content = @Content(mediaType = "application/json",
                             examples = @ExampleObject(value = "{\"error\":\"string\"}"))),
     })
+    @PreAuthorize("hasAuthority('business_logic_admin')")
     @PostMapping
     public ResponseEntity<?> createCarType(
             @io.swagger.v3.oas.annotations.parameters.RequestBody(
@@ -93,6 +95,7 @@ public class CarTypeController {
                     content = @Content(mediaType = "application/json",
                             examples = @ExampleObject(value = "{\"error\":\"string\"}"))),
     })
+    @PreAuthorize("hasAuthority('business_logic_admin')")
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCarType(@PathVariable Integer id,
                                            @RequestBody CarType carTypeDetails) {
@@ -112,6 +115,7 @@ public class CarTypeController {
                     content = @Content(mediaType = "application/json",
                             examples = @ExampleObject(value = "{\"error\":\"string\"}"))),
     })
+    @PreAuthorize("hasAuthority('business_logic_admin')")
     @DeleteMapping("/{id}")
     public ResponseEntity<?> deleteCarType(@PathVariable Integer id) {
         try {

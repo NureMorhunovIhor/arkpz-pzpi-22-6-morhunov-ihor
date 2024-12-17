@@ -51,7 +51,6 @@ public class CarController {
                     content = @Content(mediaType = "application/json",
                             examples = @ExampleObject(value = "{\"error\":\"string\"}")))
     })
-    @PreAuthorize("hasAuthority('administrator')")
     @GetMapping("/{id}")
     public ResponseEntity<?> getCarById(@PathVariable Integer id) {
         try {

@@ -33,12 +33,13 @@ public class SecurityConfig {
                                 "/actuator/**",
                                 "/api/auth/register",
                                 "/api/auth/login",
-                                "/api/sensors",
-                                "/api/payments/**"
+                                "/api/sensors/**",
+                                "/api/payments/**",
+                                "/api/business-logic/**",
+                                "/api/cars/**"
                         ).permitAll()
                         .requestMatchers("api/admin/**").hasAuthority("administrator")
                         .requestMatchers("/api/global/**").hasAuthority("global_admin")
-                        .requestMatchers("/api/business-logic/**").hasAuthority("business_logic_admin")
                         .requestMatchers("/api/**").authenticated()
                         .anyRequest().hasAuthority("client")
                 )

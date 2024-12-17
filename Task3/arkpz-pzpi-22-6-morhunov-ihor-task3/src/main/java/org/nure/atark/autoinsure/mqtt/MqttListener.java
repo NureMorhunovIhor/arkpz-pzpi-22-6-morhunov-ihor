@@ -3,7 +3,9 @@ package org.nure.atark.autoinsure.mqtt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.eclipse.paho.client.mqttv3.*;
 import org.nure.atark.autoinsure.dto.MeasurementDto;
+import org.nure.atark.autoinsure.dto.TechnicalScoreDto;
 import org.nure.atark.autoinsure.service.MeasurementService;
+import org.nure.atark.autoinsure.service.TechnicalScoreService;
 import org.springframework.stereotype.Component;
 
 import jakarta.annotation.PostConstruct;
@@ -16,10 +18,12 @@ public class MqttListener {
     private static final String TOPIC = "test/topic";
 
     private final MeasurementService measurementService;
+    private final TechnicalScoreService technicalScoreService;
     private final ObjectMapper objectMapper;
 
-    public MqttListener(MeasurementService measurementService, ObjectMapper objectMapper) {
+    public MqttListener(MeasurementService measurementService, TechnicalScoreService technicalScoreService, ObjectMapper objectMapper) {
         this.measurementService = measurementService;
+        this.technicalScoreService = technicalScoreService;
         this.objectMapper = objectMapper;
     }
 
@@ -46,8 +50,15 @@ public class MqttListener {
                         throw new IllegalArgumentException("Сообщение не является JSON");
                     }
 
-                    MeasurementDto measurementDto = objectMapper.readValue(payload, MeasurementDto.class);
-                    measurementService.createMeasurement(measurementDto);
+                    if (payload.contains("sensorId") && payload.contains("value")) {
+                        MeasurementDto measurementDto = objectMapper.readValue(payload, MeasurementDto.class);
+                        measurementService.createMeasurement(measurementDto);
+                    } else if (payload.contains("carId") && payload.contains("value")) {
+                        TechnicalScoreDto technicalScoreDto = objectMapper.readValue(payload, TechnicalScoreDto.class);
+                        technicalScoreService.saveTechnicalScore(technicalScoreDto);
+                    } else {
+                        System.err.println("Неизвестный формат сообщения.");
+                    }
                 } catch (Exception e) {
                     System.err.println("Ошибка обработки сообщения: " + e.getMessage());
                 }
