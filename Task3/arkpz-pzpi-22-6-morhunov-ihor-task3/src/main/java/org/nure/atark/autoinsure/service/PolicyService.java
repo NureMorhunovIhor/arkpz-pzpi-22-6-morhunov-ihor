@@ -196,7 +196,6 @@ public class PolicyService {
     }
 
 
-
     public boolean deletePolicy(Integer id) {
         if (policyRepository.existsById(id)) {
             policyRepository.deleteById(id);

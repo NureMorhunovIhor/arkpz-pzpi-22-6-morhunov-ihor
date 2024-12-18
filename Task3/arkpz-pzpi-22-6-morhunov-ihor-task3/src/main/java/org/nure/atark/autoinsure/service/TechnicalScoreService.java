@@ -49,7 +49,7 @@ public class TechnicalScoreService {
         dto.setId(technicalScore.getId());
         dto.setCarId(technicalScore.getCar().getId());
         dto.setValue(technicalScore.getValue());
-        dto.setReadingTime(LocalDateTime.ofInstant(technicalScore.getReadingTime(), ZoneOffset.UTC)); // Convert Instant to LocalDateTime
+        dto.setReadingTime(LocalDateTime.ofInstant(technicalScore.getReadingTime(), ZoneOffset.UTC));
         return dto;
     }
 
