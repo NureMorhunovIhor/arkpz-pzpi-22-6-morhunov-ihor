@@ -191,7 +191,7 @@ public class PolicyService {
             return baseScore;
         }
 
-        int finalScore = (int) Math.round((baseScore * 0.5 + technicalCoefficient * 0.5) / 2);
+        int finalScore = (int) Math.round(baseScore * 0.5 + technicalCoefficient * 0.5);
         return Math.min(finalScore, 10);
     }
 
